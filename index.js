@@ -10,15 +10,15 @@ const port = 3000;
 
 const template = `
 <br>
-<a href="/rr">Rewind</a>
-<br>
 <a href="/prev">Prev</a>
+<br>
+<a href="/rr">Rewind</a>
 <br>
 <a href="/pause">Play / Pause</a>
 <br>
-<a href="/next">Next</a>
-<br>
 <a href="/ff">Fast Forward</a>
+<br>
+<a href="/next">Next</a>
 <br>
 `;
 
@@ -95,7 +95,9 @@ const playNextVideo = () => {
 	console.log("Play Next Video");
 	console.log(nextVideo);
 	player.newSource(videoPath + nextVideo);
-	prevEpisodes.push(currentVideo);
+	if (currentVideo.length > 0){
+		prevEpisodes.push(currentVideo);
+	}
 	currentVideo = nextVideo;
 }
 
@@ -108,7 +110,9 @@ const playPrevVideo = () => {
 	console.log("Play Prev Video");
 	console.log(prevVideo);
 	player.newSource(videoPath + prevVideo);
-	episodes.push(currentVideo);
+	if (currentVideo.length > 0){
+		episodes.push(currentVideo);
+	}
 	currentVideo = prevVideo;
 }
 
