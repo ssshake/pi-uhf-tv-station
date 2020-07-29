@@ -110,9 +110,7 @@ const playPrevVideo = () => {
 	console.log("Play Prev Video");
 	console.log(prevVideo);
 	player.newSource(videoPath + prevVideo);
-	if (currentVideo.length > 0){
-		episodes.push(currentVideo);
-	}
+        episodes.push(currentVideo);
 	currentVideo = prevVideo;
 }
 
