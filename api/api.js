@@ -18,43 +18,18 @@ const poweron = `https://maker.ifttt.com/trigger/uhf_power_on/with/key/${process
 const poweroff = `https://maker.ifttt.com/trigger/uhf_power_off/with/key/${process.env.IFTTT_KEY}`;
 let powerstate = false;
 
-const template = `
-<style>
-	body {
-		background: rgb(63,76,143);
-		background: radial-gradient(circle, rgba(63,76,143,1) 0%, rgba(13,35,66,1) 100%);
-		color: white;
-		font-family: arial;
-		font-weight: bold;
-	}
-
-	a {
-		border: 2px solid black;
-		padding: 4px;
-		margin: 4px;
-		text-decoration: none;
-		color: white
-		font-family: arial;
-		display: inline-block;
-		background-color: black;
-	}
-
-	a:visited {
-		color: white;
-	}
-</style>
-<div>	
-	<a href="/power">Power ${powerstate}</a>
-	<a href="/prev">Prev</a>
-	<a href="/rr">Rewind</a>
-	<a href="/pause">Play / Pause</a>
-	<a href="/ff">Fast Forward</a>
-	<a href="/next">Next</a>
-</div>
-`;
+app.use(function(req, res, next){
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	next();
+})
 
 app.get('/', (req, res) => {
-	res.send(currentVideo + template);
+	res.json({ nowPlaying: currentVideo});
+});
+
+app.get('/nowplaying', (req, res) => {
+	console.log("now playing")
+	res.json({ nowPlaying: currentVideo});
 });
 
 app.get('/power', (req, res) => {
@@ -69,39 +44,41 @@ app.get('/power', (req, res) => {
 	fetch(url).then(() => {
 		powerstate = !powerstate;
 		console.log("should power cycle");
-		res.send(currentVideo + template);
+		res.json({ nowPlaying: currentVideo});
 	});
 
 });
 
+
+
 app.get('/prev', (req, res) => {
 	playPrevVideo();
-	res.send(currentVideo + template);
+	res.json({ nowPlaying: currentVideo});
 });
 
 app.get('/next', (req, res) => {
 	playNextVideo();
-	res.send(currentVideo + template);
+	res.json({ nowPlaying: currentVideo});
 });
 
 app.get('/ff', (req, res) => {
 	player.fwd30();
-	res.send(currentVideo + template);
+	res.json({ nowPlaying: currentVideo});
 });
 
 app.get('/rr', (req, res) => {
 	player.back30();
-	res.send(currentVideo + template);
+	res.json({ nowPlaying: currentVideo});
 });
 
 app.get('/play', (req, res) => {
 	player.play();
-	res.send(currentVideo + template);
+	res.json({ nowPlaying: currentVideo});
 });
 
 app.get('/pause', (req, res) => {
 	player.pause();
-	res.send(currentVideo + template);
+	res.json({ nowPlaying: currentVideo});
 });
 
 
