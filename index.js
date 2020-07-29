@@ -9,17 +9,37 @@ const app = express();
 const port = 3000;
 
 const template = `
-<br>
-<a href="/prev">Prev</a>
-<br>
-<a href="/rr">Rewind</a>
-<br>
-<a href="/pause">Play / Pause</a>
-<br>
-<a href="/ff">Fast Forward</a>
-<br>
-<a href="/next">Next</a>
-<br>
+<style>
+	body {
+		background: rgb(63,76,143);
+		background: radial-gradient(circle, rgba(63,76,143,1) 0%, rgba(13,35,66,1) 100%);
+		color: white;
+		font-family: arial;
+		font-weight: bold;
+	}
+
+	a {
+		border: 2px solid black;
+		padding: 4px;
+		margin: 4px;
+		text-decoration: none;
+		color: white
+		font-family: arial;
+		display: inline-block;
+		background-color: black;
+	}
+
+	a:visited {
+		color: white;
+	}
+</style>
+<div>	
+	<a href="/prev">Prev</a>
+	<a href="/rr">Rewind</a>
+	<a href="/pause">Play / Pause</a>
+	<a href="/ff">Fast Forward</a>
+	<a href="/next">Next</a>
+</div>
 `;
 
 app.get('/', (req, res) => {
