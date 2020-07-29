@@ -81,15 +81,31 @@ app.get('/pause', (req, res) => {
 	res.json({ nowPlaying: currentVideo});
 });
 
+app.get('/volup', (req, res) => {
+	player.volUp();
+	res.json({ nowPlaying: currentVideo});
+});
+app.get('/voldown', (req, res) => {
+	player.volDown();
+	res.json({ nowPlaying: currentVideo});
+});
 
+app.get('/chdown', (req, res) => {
+	player.volDown();
+	res.json({ nowPlaying: currentVideo});
+});
+app.get('/chdown', (req, res) => {
+	player.volDown();
+	res.json({ nowPlaying: currentVideo});
+});
 
 console.log('Starting Pi TV Station');
 
 const videoPath = "/media/video/TV/Star Trek TNG/Star.Trek.The.Next.Generation.S01.NTSC.DVD.DD5.1.x264-JCH/";
 
 const shows = [
-	"Star Trek TNG",
-	"Futurama",
+	"Sonic",
+	"Star Trek TNG/Star.Trek.The.Next.Generation.S01.NTSC.DVD.DD5.1.x264-JCH/",
 ]
 
 let prevEpisodes = [];
@@ -145,3 +161,5 @@ app.listen(port, () => {
 });
 
 
+Super Mario Bros/Super Mario Bros Super Show Vol2/SMBSS2 Disk 1
+Super Mario Bros/Super Mario Brothers 3
