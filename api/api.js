@@ -1,12 +1,22 @@
 const path = require('path');
-
 const fs = require('fs');
+const dotenv = require('dotenv');
+const fetch = require('node-fetch');
+
+dotenv.config();
+
+console.log(process.env.IFTTT_KEY);
 
 let Omx = require('node-omxplayer');
 let express = require('express');
 
 const app = express();
 const port = 3000;
+
+
+const poweron = `https://maker.ifttt.com/trigger/uhf_power_on/with/key/${process.env.IFTTT_KEY}`;
+const poweroff = `https://maker.ifttt.com/trigger/uhf_power_off/with/key/${process.env.IFTTT_KEY}`;
+let powerstate = false;
 
 const template = `
 <style>
@@ -34,6 +44,7 @@ const template = `
 	}
 </style>
 <div>	
+	<a href="/power">Power ${powerstate}</a>
 	<a href="/prev">Prev</a>
 	<a href="/rr">Rewind</a>
 	<a href="/pause">Play / Pause</a>
@@ -44,6 +55,23 @@ const template = `
 
 app.get('/', (req, res) => {
 	res.send(currentVideo + template);
+});
+
+app.get('/power', (req, res) => {
+
+	let url = '';
+	if (powerstate){
+		url = poweron;
+	}else{
+		url = poweroff;
+	}
+
+	fetch(url).then(() => {
+		powerstate = !powerstate;
+		console.log("should power cycle");
+		res.send(currentVideo + template);
+	});
+
 });
 
 app.get('/prev', (req, res) => {
@@ -138,3 +166,5 @@ let player = Omx();
 app.listen(port, () => {
 	console.log("tv station up on " + port);
 });
+
+
