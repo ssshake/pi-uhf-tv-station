@@ -5,8 +5,6 @@ const fetch = require('node-fetch');
 
 dotenv.config();
 
-console.log(process.env.IFTTT_KEY);
-
 let Omx = require('node-omxplayer');
 let express = require('express');
 
@@ -18,43 +16,18 @@ const poweron = `https://maker.ifttt.com/trigger/uhf_power_on/with/key/${process
 const poweroff = `https://maker.ifttt.com/trigger/uhf_power_off/with/key/${process.env.IFTTT_KEY}`;
 let powerstate = false;
 
-const template = `
-<style>
-	body {
-		background: rgb(63,76,143);
-		background: radial-gradient(circle, rgba(63,76,143,1) 0%, rgba(13,35,66,1) 100%);
-		color: white;
-		font-family: arial;
-		font-weight: bold;
-	}
-
-	a {
-		border: 2px solid black;
-		padding: 4px;
-		margin: 4px;
-		text-decoration: none;
-		color: white
-		font-family: arial;
-		display: inline-block;
-		background-color: black;
-	}
-
-	a:visited {
-		color: white;
-	}
-</style>
-<div>	
-	<a href="/power">Power ${powerstate}</a>
-	<a href="/prev">Prev</a>
-	<a href="/rr">Rewind</a>
-	<a href="/pause">Play / Pause</a>
-	<a href="/ff">Fast Forward</a>
-	<a href="/next">Next</a>
-</div>
-`;
+app.use(function(req, res, next){
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	next();
+})
 
 app.get('/', (req, res) => {
-	res.send(currentVideo + template);
+	res.json({ nowPlaying: currentVideo});
+});
+
+app.get('/nowplaying', (req, res) => {
+	console.log("now playing")
+	res.json({ nowPlaying: currentVideo});
 });
 
 app.get('/power', (req, res) => {
@@ -69,70 +42,113 @@ app.get('/power', (req, res) => {
 	fetch(url).then(() => {
 		powerstate = !powerstate;
 		console.log("should power cycle");
-		res.send(currentVideo + template);
+		res.json({ nowPlaying: currentVideo});
 	});
 
 });
 
+
+
 app.get('/prev', (req, res) => {
 	playPrevVideo();
-	res.send(currentVideo + template);
+	res.json({ nowPlaying: currentVideo});
 });
 
 app.get('/next', (req, res) => {
 	playNextVideo();
-	res.send(currentVideo + template);
+	res.json({ nowPlaying: currentVideo});
 });
 
 app.get('/ff', (req, res) => {
 	player.fwd30();
-	res.send(currentVideo + template);
+	res.json({ nowPlaying: currentVideo});
 });
 
 app.get('/rr', (req, res) => {
 	player.back30();
-	res.send(currentVideo + template);
+	res.json({ nowPlaying: currentVideo});
 });
 
 app.get('/play', (req, res) => {
 	player.play();
-	res.send(currentVideo + template);
+	res.json({ nowPlaying: currentVideo});
 });
 
 app.get('/pause', (req, res) => {
 	player.pause();
-	res.send(currentVideo + template);
+	res.json({ nowPlaying: currentVideo});
 });
 
+app.get('/volup', (req, res) => {
+	player.volUp();
+	res.json({ nowPlaying: currentVideo});
+});
+app.get('/voldown', (req, res) => {
+	player.volDown();
+	res.json({ nowPlaying: currentVideo});
+});
 
+app.get('/chup', (req, res) => {
+	res.json({ nowPlaying: channelUp() });
+});
+app.get('/chdown', (req, res) => {
+	res.json({ nowPlaying: channelDown() });
+});
 
 console.log('Starting Pi TV Station');
 
-const videoPath = "/media/video/TV/Star Trek TNG/Star.Trek.The.Next.Generation.S01.NTSC.DVD.DD5.1.x264-JCH/";
+const basePath = "/media/video/TV/"
+const playlists = [
+	"Sonic",
+	"Star Trek TNG/Star.Trek.The.Next.Generation.S01.NTSC.DVD.DD5.1.x264-JCH/",
+	"Cosmos Original",
+	"ReBoot/Season 1",
+	"Super Mario Bros/Super Mario Brothers 3",
+	"Legend of Zelda",
+	"The Real Ghostbusters - Season 1-7/Season 1 - 13 eps - dvdrip - mer-der",
+	"Sliders/Sliders full/Season 1",
+	"Super Mario Bros/Super Mario Bros Super Show Vol2/SMBSS2 Disk 1",
+]
 
-const shows = [
-	"Star Trek TNG",
-	"Futurama",
+const disabledPlaylists = [
+
+	"Duckman",
+	"Futurama/Futurama.COMPLETE.DVDRip.MiXED/Season Two",
 ]
 
 let prevEpisodes = [];
 let episodes = [];
 let currentVideo = "";
+let currentPlaylistIndex = 0;
+let videoPath = "";
 
-fs.readdir(videoPath, function(err, files){
-	if (err) {
-		return console.log('unable to scan dir ' + err);
-	}
+const loadPlaylist = () => {
+	videoPath = basePath + playlists[currentPlaylistIndex] + "/";
 
-	episodes = files.reverse();
-	
-	//files.forEach(function(file) {
-	//	console.log(file);
-	//	episodes.push(file);
-	//});
+	fs.readdir(videoPath, function(err, files){
+		if (err) {
+			return console.log('unable to scan dir ' + err);
+		}
 
-	playNextVideo();
-});
+		episodes = files.filter((file) => {
+			let regex = /\.nfo$/
+			return !regex.test(file)
+		}).reverse();
+		playNextVideo();
+	});
+}
+
+const channelUp = () => {
+	currentPlaylistIndex = (currentPlaylistIndex + 1) % playlists.length;
+	loadPlaylist();
+	return playlists[currentPlaylistIndex].replace(/\./g, ' ').replace(/\//g, ' ');
+}
+
+const channelDown = () => {
+	currentPlaylistIndex = (currentPlaylistIndex - 1) % playlists.length;
+	loadPlaylist();
+	return playlists[currentPlaylistIndex].replace(/\./g, ' ').replace(/\//g, ' ');
+}
 
 const playNextVideo = () => {
 	if (episodes.length <= 0){
@@ -140,8 +156,10 @@ const playNextVideo = () => {
 		return;
 	}
 	let nextVideo = episodes.pop();
+
 	console.log("Play Next Video");
 	console.log(nextVideo);
+
 	player.newSource(videoPath + nextVideo);
 	if (currentVideo.length > 0){
 		prevEpisodes.push(currentVideo);
@@ -155,16 +173,21 @@ const playPrevVideo = () => {
 		return;
 	}
 	let prevVideo = prevEpisodes.pop();
+
 	console.log("Play Prev Video");
 	console.log(prevVideo);
+
 	player.newSource(videoPath + prevVideo);
         episodes.push(currentVideo);
 	currentVideo = prevVideo;
 }
 
 let player = Omx();
+loadPlaylist();
+
 app.listen(port, () => {
 	console.log("tv station up on " + port);
 });
+
 
 
