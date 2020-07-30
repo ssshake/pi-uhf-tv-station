@@ -94,20 +94,24 @@ export default {
       console.log("nextButton button")
     },
     volumeUpButton(){
+      this.genericGet(`${this.baseUrl}/volup`);
       console.log("volumeUpButton button")
     },
     volumeDownButton(){
+      this.genericGet(`${this.baseUrl}/voldown`);
       console.log("volumeDownButton button")
     },
     channelUpButton(){
+      this.genericGet(`${this.baseUrl}/chup`);
       console.log("channelUpButton button")
+    },
+    channelDownButton(){
+      this.genericGet(`${this.baseUrl}/chdown`);
+      console.log("channelDownButton button")
     },
     volumeMuteButton(){
       console.log("volumeDownButton button")
-    },
-    channelDownButton(){
-      console.log("channelDownButton button")
-    },                                            
+    },                                                
   },
   mounted(){
     this.nowPlaying();
@@ -121,13 +125,16 @@ export default {
     background-image: url('../assets/woodgrain.jpg');
     background-size: cover;
     box-sizing: border-box;
-    height: 100%;
     border-radius: 5px;
+    box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.75), 1px 1px 2px 0px rgba(255,255,255,0.2), -1px -2px 2px 0px rgba(0,0,0,0.3);
   }
 
 .now-playing{
   color: lightgrey;
   text-shadow: 1px 1px black;
+  padding: 10px;
+  font-size: 10pt;
+  overflow: hidden;
 
 }
 
@@ -135,7 +142,7 @@ export default {
   background: rgb(103,111,150);
   background: radial-gradient(circle, rgba(60,71,80,1) 0%, rgba(24,25,28,1) 100%);
   border-radius: 5px;
-  margin: 20px 10px;
+  margin: 20px 15px;
   padding: 14px;
   display:flex;
   flex-wrap: wrap;
@@ -160,6 +167,7 @@ export default {
 	text-decoration:none;
 	text-shadow:0px -1px 0px #2b665e;
   margin: 4px 0px;
+  
 
 }
 .button:hover {
