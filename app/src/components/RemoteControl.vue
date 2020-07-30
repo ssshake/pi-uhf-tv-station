@@ -1,6 +1,5 @@
 <template>
   <div class="remote">
-    <div style="height: 1px"> </div>
 
     <div class="now-playing">{{ nowplaying }}</div>
 
@@ -10,22 +9,20 @@
     </div>
 
     <div class="button-group">
-
-      <button class="button" @click="volumeUpButton"><font-awesome-icon icon="volume-up"  fixed-width/></button>  
-      <button class="button" @click="pauseButton"><font-awesome-icon icon="pause"  fixed-width/></button>
-      <button class="button" @click="playButton"><font-awesome-icon icon="play"  fixed-width/></button>
-      <button class="button" @click="channelUpButton"><font-awesome-icon icon="sort-up" fixed-width /></button>
+      <button class="button" @click="button('volup')"><font-awesome-icon icon="volume-up"  fixed-width/></button>  
+      <button class="button" @click="button('pause')"><font-awesome-icon icon="pause"  fixed-width/></button>
+      <button class="button" @click="button('play')"><font-awesome-icon icon="play"  fixed-width/></button>
+      <button class="button" @click="button('chup')"><font-awesome-icon icon="sort-up" fixed-width /></button>
     
-      <button class="button" @click="volumeDownButton"><font-awesome-icon icon="volume-down"  fixed-width/></button>
+      <button class="button" @click="button('voldown')"><font-awesome-icon icon="volume-down"  fixed-width/></button>
       <button class="button" @click="recordButton"><font-awesome-icon icon="circle" style="color:red;" fixed-width/></button>
       <button class="button" @click="stopButton"><font-awesome-icon icon="stop"  fixed-width/></button>
-      <button class="button" @click="channelDownButton"><font-awesome-icon icon="sort-down"  fixed-width/></button>
+      <button class="button" @click="button('chdown')"><font-awesome-icon icon="sort-down"  fixed-width/></button>
 
-      <button class="button" @click="prevButton"><font-awesome-icon icon="fast-backward"  fixed-width/></button>
-      <button class="button" @click="backwardButton"><font-awesome-icon icon="backward" fixed-width /></button>
-      <button class="button" @click="forwardButton"><font-awesome-icon icon="forward"  fixed-width/></button>
-      <button class="button" @click="nextButton"><font-awesome-icon icon="fast-forward"  fixed-width/></button>
-
+      <button class="button" @click="button('prev')"><font-awesome-icon icon="fast-backward"  fixed-width/></button>
+      <button class="button" @click="button('rr')"><font-awesome-icon icon="backward" fixed-width /></button>
+      <button class="button" @click="button('ff')"><font-awesome-icon icon="forward"  fixed-width/></button>
+      <button class="button" @click="button('next')"><font-awesome-icon icon="fast-forward"  fixed-width/></button>
     </div>    
 
     <div class="button-group">
@@ -42,6 +39,7 @@
       <button class="button num" @click="num">0</button>
       <button class="button num" @click="num">#</button>
     </div>
+
   </div>
 </template>
 
@@ -50,93 +48,63 @@ export default {
   name: 'RemoteControl',
   data: () => {
     return {
-      baseUrl: 'http://10.0.0.20:3000',
+      baseUrl: 'http://10.0.0.20:3000', //pull from config
       nowplaying: '',
       isPlaying: false,
       powerState: false,
     };
   },
   methods: {
-    genericGet(url){
-      return fetch(url)
+    get(action){
+      return fetch(`${this.baseUrl}/${action}`)
       .then(response => response.text())
       .then((data) => {
+
         console.log(data)
+        
         this.powerState = JSON.parse(data).powerState
         this.isPlaying = JSON.parse(data).playing
         
-        if (this.powerState && this.isPlaying){
-          this.nowplaying = JSON.parse(data).nowPlaying
-        } else if (this.powerState && !this.isPlaying){
-          this.nowplaying = "Paused";
-        } else {
-          this.nowplaying = "Transmitter Offline";        
+        if (!this.powerState){
+          this.nowplaying = "Transmitter Offline";
+          return;
         }
-      }) 
+
+        if (!this.isPlaying){
+          this.nowplaying = "Paused";
+          return;
+        } 
+
+        this.nowplaying = JSON.parse(data).nowPlaying;
+        
+      });
     },
-    num(){
-      console.log("num pressed")
+    button(action){
+      this.get(action)
     },
     nowPlaying(){
-      this.genericGet(`${this.baseUrl}/nowplaying`);
-    },
-    ejectButton(){
-      console.log("ejectButton button")
+      this.get(`nowplaying`);
     },
     powerButton(){
-      this.genericGet(`${this.baseUrl}/power`);
+      this.get(`power`);
       this.pauseButton();
       console.log("power button")
     },
-    backwardButton(){
-      this.genericGet(`${this.baseUrl}/rr`);
-      console.log("backwardButton button")
-    },
-    playButton(){
-      this.genericGet(`${this.baseUrl}/play`);
-      console.log("playButton button")
-    },            
-    pauseButton(){
-      this.genericGet(`${this.baseUrl}/pause`);
-      console.log("pauseButton button")
-    },
-    forwardButton(){
-      this.genericGet(`${this.baseUrl}/ff`);
-      console.log("forwardButton button")
-    },
-    prevButton(){
-      this.genericGet(`${this.baseUrl}/prev`);
-      console.log("prevButton button")
-    },
+    ejectButton(){
+      console.log("ejectButton button")
+    },    
     stopButton(){
       console.log("stopButton button")
     },
     recordButton(){
       console.log("recordButton button")
     },
-    nextButton(){
-      this.genericGet(`${this.baseUrl}/next`);
-      console.log("nextButton button")
-    },
-    volumeUpButton(){
-      this.genericGet(`${this.baseUrl}/volup`);
-      console.log("volumeUpButton button")
-    },
-    volumeDownButton(){
-      this.genericGet(`${this.baseUrl}/voldown`);
-      console.log("volumeDownButton button")
-    },
-    channelUpButton(){
-      this.genericGet(`${this.baseUrl}/chup`);
-      console.log("channelUpButton button")
-    },
-    channelDownButton(){
-      this.genericGet(`${this.baseUrl}/chdown`);
-      console.log("channelDownButton button")
-    },
     volumeMuteButton(){
       console.log("volumeDownButton button")
-    },                                                
+    },
+    num(){
+      console.log("num pressed")
+    },                                             
   },
   mounted(){
     this.nowPlaying();
@@ -182,8 +150,8 @@ export default {
 }
 
 .button-group{
-background: rgb(111,111,111);
-background: radial-gradient(circle, rgba(111,111,111,1) 0%, rgba(0,0,0,1) 100%);
+  background: rgb(111,111,111);
+  background: radial-gradient(circle, rgba(111,111,111,1) 0%, rgba(0,0,0,1) 100%);
   border-radius: 5px;
   margin: 20px 15px;
   padding: 14px;
