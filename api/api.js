@@ -2,31 +2,32 @@ const path = require('path');
 const fs = require('fs');
 const dotenv = require('dotenv');
 const fetch = require('node-fetch');
+const express = require('express');
+const Omx = require('node-omxplayer');
 
 dotenv.config();
 
-let Omx = require('node-omxplayer');
-let express = require('express');
-
 const app = express();
 const port = process.env.PORT || 3000;
-
-const poweron = `https://maker.ifttt.com/trigger/uhf_power_on/with/key/${process.env.IFTTT_KEY}`;
-const poweroff = `https://maker.ifttt.com/trigger/uhf_power_off/with/key/${process.env.IFTTT_KEY}`;
 
 const config = require('./config.json');
 
 const playlists = config.playlists
 
+const poweron = `https://maker.ifttt.com/trigger/uhf_power_on/with/key/${process.env.IFTTT_KEY}`;
+const poweroff = `https://maker.ifttt.com/trigger/uhf_power_off/with/key/${process.env.IFTTT_KEY}`;
+
 let state = {
 	powerstate: true,
-	prevEpisodes: [],
-	episodes: [],
-	currentVideo: "",
-	currentPlaylistIndex: 0,
-	videoPath: "",
 	playing: false,
+	playlistIndex: 0,
+	episodes: [],
+	videoIndex: 0,
+	currentVideo: "",
+	videoPath: "",
 }
+
+let player = Omx();
 
 const sendDefaultResponse = (res) => {
 	return res.json({ 
@@ -52,16 +53,11 @@ app.get('/nowplaying', (req, res) => {
 
 app.get('/power', (req, res) => {
 
-	let url = '';
-	if (state.powerstate){
-		url = poweroff;
-	}else{
-		url = poweron;
-	}
+	let url = state.powerstate ? poweroff : poweron;
 
 	fetch(url).then(() => {
 		state.powerstate = !state.powerstate;
-		console.log("should power cycle");
+		console.log("should power cycle to" + state.powerstate);
 		return sendDefaultResponse (res);
 	});
 
@@ -118,7 +114,7 @@ app.get('/chdown', (req, res) => {
 
 
 const loadPlaylist = () => {
-	state.videoPath = config.basePath + playlists[state.currentPlaylistIndex] + "/";
+	state.videoPath = config.basePath + playlists[state.playlistIndex] + "/";
 
 	fs.readdir(state.videoPath, function(err, files){
 		if (err) {
@@ -129,68 +125,77 @@ const loadPlaylist = () => {
 			let regex = /\.nfo$/
 			return !regex.test(file)
 		}).reverse();
-		playNextVideo();
+
+		state.videoIndex = 0;
+
+		loadVideo();
 	});
 }
 
 const channelUp = () => {
-	state.currentPlaylistIndex = (state.currentPlaylistIndex + 1) % playlists.length;
+	state.playlistIndex = (state.playlistIndex + 1) % playlists.length;
+
 	loadPlaylist();
-	return playlists[state.currentPlaylistIndex].replace(/\./g, ' ').replace(/\//g, ' ');
+	return playlists[state.playlistIndex].replace(/\./g, ' ').replace(/\//g, ' ');
 }
 
 const channelDown = () => {
-	state.currentPlaylistIndex = (state.currentPlaylistIndex - 1) % playlists.length;
+	state.playlistIndex--;
+	if (state.playlistIndex < 0){
+		state.playlistIndex = playlists.length - 1;
+	}
+
 	loadPlaylist();
-	return playlists[state.currentPlaylistIndex].replace(/\./g, ' ').replace(/\//g, ' ');
+	return playlists[state.playlistIndex].replace(/\./g, ' ').replace(/\//g, ' ');
 }
 
+
 const playNextVideo = () => {
-	if (state.episodes.length <= 0){
-		console.log('end of list');
-		return;
-	}
-	let nextVideo = state.episodes.pop();
+	state.videoIndex = (state.videoIndex + 1) % state.episodes.length;
 
-	console.log("Play Next Video");
-	console.log(nextVideo);
-
-	state.playing = true;
-	player.newSource(state.videoPath + nextVideo);
-	if (state.currentVideo.length > 0){
-		state.prevEpisodes.push(state.currentVideo);
-	}
-	state.currentVideo = nextVideo;
+	loadVideo();
 }
 
 const playPrevVideo = () => {
-	if (state.prevEpisodes.length <= 0){
-		console.log('end of list');
-		return;
+	state.videoIndex--;
+	if (state.videoIndex < 0){
+		state.videoIndex = state.episodes.length - 1;
 	}
-	let prevVideo = state.prevEpisodes.pop();
 
-	console.log("Play Prev Video");
-	console.log(prevVideo);
-
-	state.playing = true;
-	player.newSource(state.videoPath + prevVideo);
-        state.episodes.push(state.currentVideo);
-	state.currentVideo = prevVideo;
+	loadVideo();
 }
 
-console.log('Starting Pi TV Station');
-let player = Omx();
-loadPlaylist();
-fetch(poweron);
+const loadVideo = () => {
+	state.playing = true;
+	let nextVideo = state.episodes[state.videoIndex];
+	player.newSource(state.videoPath + nextVideo);
+	state.currentVideo = nextVideo;
+}
 
-//setTimeout(() => {
-//	player.pause();
-//}, 2000)
+
+player.on('error', (error) => {
+	console.log("An error occured")
+	console.log(error)
+})
+
+player.on('close', () => {
+	console.log("Playback has ended")
+	playNextVideo();
+})
+
+loadPlaylist();
+
+fetch(poweron);
 
 app.listen(port, () => {
 	console.log("tv station up on " + port);
 });
 
+process.on('SIGINT', function() {
+	console.log("Shut down requested")
+	player.quit();
+	//fetch(poweroff);
+	process.exit();
+});
 
 
