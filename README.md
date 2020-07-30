@@ -35,3 +35,16 @@ pm2 serve . --watch --name=uhf-app
 
 pm2 startup
 
+
+##Configure Power On/Off
+
+Create an account at ifttt.com
+
+Create two webhooks called uhf_power_on and uhf_power_off
+
+Associate these webhooks with your smart plug of choice
+
+Get your API key
+
+Add IFTTT_KEY=[your key] to the .env in the api directory
+
