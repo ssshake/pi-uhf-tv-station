@@ -3,12 +3,12 @@
 [Youtube Video Demo](https://www.youtube.com/watch?v=cm9PoflKxNo&fbclid=IwAR2Gw8_QLGf8oV3qyyU5farEgbrHSqjyMK0ZQgp9mXTgAVxfp5L8BNI3iYk)
 
 
-##Installation
+## Installation
 
 sudo apt-get update
 sudo apt-get install omxplayer
 
-##Mount Videos From Network
+## Mount Videos From Network
 
 sudo apt-get install smbclient
 
@@ -21,7 +21,7 @@ mkdir /media/video
 mount -a
 
 
-##Setup API and APP as service
+## Setup API and APP as service
 
 npm install pm2@latest -g
 
@@ -36,7 +36,7 @@ pm2 serve . --watch --name=uhf-app
 pm2 startup
 
 
-##Configure Power On/Off
+## Configure Power On/Off
 
 Create an account at ifttt.com
 
