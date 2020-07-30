@@ -89,13 +89,13 @@ app.get('/rr', (req, res) => {
 });
 
 app.get('/play', (req, res) => {
-	state.playing = true;
+	state.playing = !state.playing;
 	player.play();
 	return sendDefaultResponse (res);
 });
 
 app.get('/pause', (req, res) => {
-	state.playing = false;
+	state.playing = !state.playing;
 	player.pause();
 	return sendDefaultResponse (res);
 });
