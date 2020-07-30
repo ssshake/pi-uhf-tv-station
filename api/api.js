@@ -66,8 +66,8 @@ app.get('/power', (req, res) => {
 app.get('/number', (req, res) => {
 	console.log("requested episode #" + req.query.number)
 
-	if (req.query.number <= state.episodes.length) {
-		state.videoIndex = req.query.number
+	if (req.query.number <= state.episodes.length && req.query.number > 0) {
+		state.videoIndex = req.query.number - 1
 		loadVideo();
 	}
 
@@ -135,7 +135,7 @@ const loadPlaylist = () => {
 		state.episodes = files.filter((file) => {
 			let regex = /\.nfo$/
 			return !regex.test(file)
-		}).reverse();
+		}).sort();
 
 		state.videoIndex = 0;
 
