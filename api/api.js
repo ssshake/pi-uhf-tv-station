@@ -63,6 +63,17 @@ app.get('/power', (req, res) => {
 
 });
 
+app.get('/number', (req, res) => {
+	console.log("requested episode #" + req.query.number)
+
+	if (req.query.number <= state.episodes.length) {
+		state.videoIndex = req.query.number
+		loadVideo();
+	}
+
+	return sendDefaultResponse (res);
+});
+
 
 app.get('/prev', (req, res) => {
 	playPrevVideo();
