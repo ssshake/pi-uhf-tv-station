@@ -110,10 +110,10 @@ app.get('/voldown', (req, res) => {
 });
 
 app.get('/chup', (req, res) => {
-	res.json({ nowPlaying: channelUp(), powerState: state.powerstate });//smell
+	res.json({ nowPlaying: channelUp(), powerState: state.powerstate, playing: state.playing });//smell
 });
 app.get('/chdown', (req, res) => {
-	res.json({ nowPlaying: channelDown(), powerState: state.powerstate });//smell
+	res.json({ nowPlaying: channelDown(), powerState: state.powerstate, playing: state.playing });//smell
 });
 
 
