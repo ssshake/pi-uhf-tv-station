@@ -2,7 +2,9 @@
   <div class="remote">
     <div style="height: 1px"> </div>
 
-    <div class="button-group">
+    <div class="now-playing">{{ nowplaying }}</div>
+
+    <div class="button-group">   
       <button class="button" @click="ejectButton"><font-awesome-icon icon="eject"  fixed-width/></button>
       <button class="button" @click="powerButton"><font-awesome-icon icon="power-off" fixed-width/></button>
     </div>
@@ -26,22 +28,19 @@
 
     </div>    
 
-  <div class="button-group">
-    <button class="button num" @click="num">7</button>
-    <button class="button num" @click="num">8</button>
-    <button class="button num" @click="num">9</button>
-    <button class="button num" @click="num">4</button>
-    <button class="button num" @click="num">5</button>
-    <button class="button num" @click="num">6</button>
-    <button class="button num" @click="num">1</button>
-    <button class="button num" @click="num">2</button>
-    <button class="button num" @click="num">3</button>
-    <button class="button num" @click="num">*</button>
-    <button class="button num" @click="num">0</button>
-    <button class="button num" @click="num">#</button>
-  </div>
-    <div class="now-playing">
-      {{ nowplaying }}
+    <div class="button-group">
+      <button class="button num" @click="num">7</button>
+      <button class="button num" @click="num">8</button>
+      <button class="button num" @click="num">9</button>
+      <button class="button num" @click="num">4</button>
+      <button class="button num" @click="num">5</button>
+      <button class="button num" @click="num">6</button>
+      <button class="button num" @click="num">1</button>
+      <button class="button num" @click="num">2</button>
+      <button class="button num" @click="num">3</button>
+      <button class="button num" @click="num">*</button>
+      <button class="button num" @click="num">0</button>
+      <button class="button num" @click="num">#</button>
     </div>
   </div>
 </template>
@@ -53,15 +52,21 @@ export default {
     return {
       baseUrl: 'http://10.0.0.20:3000',
       nowplaying: '',
+      powerState: false,
     };
   },
   methods: {
     genericGet(url){
-      fetch(url)
+      return fetch(url)
       .then(response => response.text())
       .then((data) => {
         console.log(data)
-        this.nowplaying = JSON.parse(data).nowPlaying
+        this.powerState = JSON.parse(data).powerState
+        if (this.powerState){
+          this.nowplaying = JSON.parse(data).nowPlaying
+        } else {
+          this.nowplaying = "Transmitter Offline";
+        }
       }) 
     },
     num(){
@@ -75,6 +80,7 @@ export default {
     },
     powerButton(){
       this.genericGet(`${this.baseUrl}/power`);
+      this.pauseButton();
       console.log("power button")
     },
     backwardButton(){
@@ -136,13 +142,20 @@ export default {
 
 <style scoped>
 
+  @font-face {
+    font-family: 'test';
+    src: url('../assets/fonts/digital-7.ttf');
+    font-weight: normal;
+    font-style: normal;
+  }
+
   .num {
     width: 70px;
   }
   .remote {
     //background-image: url('../assets/woodgrain.jpg');
-background: rgb(255,255,255);
-background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(172,175,181,1) 100%);
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(172,175,181,1) 100%);
     background-size: cover;
     box-sizing: border-box;
     border-radius: 5px;
@@ -155,7 +168,11 @@ background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(172,175,181,1) 
   padding: 10px;
   font-size: 10pt;
   overflow: hidden;
-
+  font-family: 'test';
+  color: #0099CC;
+  background-color: black;
+  margin: 15px;
+  border-radius: 3px;
 }
 
 .button-group{
