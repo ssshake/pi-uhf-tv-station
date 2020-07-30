@@ -13,7 +13,7 @@ sudo apt-get update
 
 sudo apt-get install omxplayer #command line video play for raspberry pi, written by member of Kodi team
 
-npm install pm2@latest -g #optional but recommended, used to how the API and App as system services
+npm install pm2@latest -g #optional but recommended, used to have the API and App as system services
 
 pm2 startup #so that pm2 will start on reboot
 
