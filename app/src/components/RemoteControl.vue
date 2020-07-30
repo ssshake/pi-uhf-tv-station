@@ -52,6 +52,7 @@ export default {
     return {
       baseUrl: 'http://10.0.0.20:3000',
       nowplaying: '',
+      isPlaying: false,
       powerState: false,
     };
   },
@@ -62,10 +63,14 @@ export default {
       .then((data) => {
         console.log(data)
         this.powerState = JSON.parse(data).powerState
-        if (this.powerState){
+        this.isPlaying = JSON.parse(data).playing
+        
+        if (this.powerState && this.isPlaying){
           this.nowplaying = JSON.parse(data).nowPlaying
+        } else if (this.powerState && !this.isPlaying){
+          this.nowplaying = "Paused";
         } else {
-          this.nowplaying = "Transmitter Offline";
+          this.nowplaying = "Transmitter Offline";        
         }
       }) 
     },
