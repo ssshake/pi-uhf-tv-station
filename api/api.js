@@ -19,13 +19,12 @@ const poweroff = `https://maker.ifttt.com/trigger/uhf_power_off/with/key/${proce
 
 let state = {
 	powerstate: true,
-	prevEpisodes: [],
+	playing: false,
+	playlistIndex: 0,
 	episodes: [],
 	videoIndex: 0,
 	currentVideo: "",
-	playlistIndex: 0,
 	videoPath: "",
-	playing: false,
 }
 
 let player = Omx();
