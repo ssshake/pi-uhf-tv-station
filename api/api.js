@@ -99,8 +99,9 @@ console.log('Starting Pi TV Station');
 
 const basePath = "/media/video/TV/"
 const playlists = [
+	"Game of Thrones/Season 4",
 	"Sonic",
-	"Star Trek TNG/Star.Trek.The.Next.Generation.S01.NTSC.DVD.DD5.1.x264-JCH/",
+	"Star Trek TNG/Star.Trek.The.Next.Generation.S01.NTSC.DVD.DD5.1.x264-JCH",
 	"Cosmos Original",
 	"ReBoot/Season 1",
 	"Super Mario Bros/Super Mario Brothers 3",
@@ -108,6 +109,7 @@ const playlists = [
 	"The Real Ghostbusters - Season 1-7/Season 1 - 13 eps - dvdrip - mer-der",
 	"Sliders/Sliders full/Season 1",
 	"Super Mario Bros/Super Mario Bros Super Show Vol2/SMBSS2 Disk 1",
+	"Star Trek TNG/Star.Trek.The.Next.Generation.S03.NTSC.DVD.DD5.1.x264-JCH",
 ]
 
 const disabledPlaylists = [
