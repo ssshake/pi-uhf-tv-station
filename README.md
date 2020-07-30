@@ -4,11 +4,12 @@ sudo apt-get update
 sudo apt-get install omxplayer
 
 ##Mount Videos From Network
+
 sudo apt-get install smbclient
 
 vi /etc/fstab
 
-//<IP-OF-SERVER>/Video /media/video cifs user=<SAMBA USERNAME>,pass=<SAMBA PASSWORD> 0 0
+//[IP-OF-SERVER]/Video /media/video cifs user=[SAMBA USERNAME],pass=[SAMBA PASSWORD] 0 0
 
 mkdir /media/video
 
