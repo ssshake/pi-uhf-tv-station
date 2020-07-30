@@ -52,9 +52,9 @@ app.get('/power', (req, res) => {
 
 	let url = '';
 	if (state.powerstate){
-		url = poweron;
-	}else{
 		url = poweroff;
+	}else{
+		url = poweron;
 	}
 
 	fetch(url).then(() => {
