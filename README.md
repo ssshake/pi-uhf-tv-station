@@ -1,4 +1,9 @@
-# pi-tv-stationi
+# pi-tv-station
+
+[Youtube Video Demo](https://www.youtube.com/watch?v=cm9PoflKxNo&fbclid=IwAR2Gw8_QLGf8oV3qyyU5farEgbrHSqjyMK0ZQgp9mXTgAVxfp5L8BNI3iYk)
+
+
+##Installation
 
 sudo apt-get update
 sudo apt-get install omxplayer
