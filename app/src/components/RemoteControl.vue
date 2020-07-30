@@ -178,6 +178,7 @@ export default {
   background-color: black;
   margin: 15px;
   border-radius: 3px;
+  min-height: 60px;
 }
 
 .button-group{

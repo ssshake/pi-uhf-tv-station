@@ -2,6 +2,15 @@
 
 [Youtube Video Demo](https://www.youtube.com/watch?v=cm9PoflKxNo&fbclid=IwAR2Gw8_QLGf8oV3qyyU5farEgbrHSqjyMK0ZQgp9mXTgAVxfp5L8BNI3iYk)
 
+![youtube video thumbnail](https://raw.githubusercontent.com/ssshake/pi-tv-station/master/docs/covertitle.jpg)
+
+![remote app](https://raw.githubusercontent.com/ssshake/pi-tv-station/master/docs/remote.jpg)
+
+## Hardware Required
+
+A UHF/VHF TV Transmitter with Composite Video 
+
+![tv transmitter](https://raw.githubusercontent.com/ssshake/pi-tv-station/master/docs/tvtransmitter.jpg)
 
 ## Installation Prerequisites
 
@@ -9,7 +18,7 @@ sudo apt-get update
 
 sudo apt-get install omxplayer #command line video play for raspberry pi, written by member of Kodi team
 
-npm install pm2@latest -g #optional but recommended, used to how the API and App as system services
+npm install pm2@latest -g #optional but recommended, used to have the API and App as system services
 
 pm2 startup #so that pm2 will start on reboot
 
