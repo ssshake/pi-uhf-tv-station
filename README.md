@@ -6,6 +6,11 @@
 
 ![remote app](https://raw.githubusercontent.com/ssshake/pi-tv-station/master/docs/remote.jpg)
 
+## Hardware Required
+
+A UHF/VHF TV Transmitter with Composite Video 
+
+![tv transmitter](https://raw.githubusercontent.com/ssshake/pi-tv-station/master/docs/tvtransmitter.jpg)
 
 ## Installation Prerequisites
 
