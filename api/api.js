@@ -5,8 +5,6 @@ const fetch = require('node-fetch');
 
 dotenv.config();
 
-console.log(process.env.IFTTT_KEY);
-
 let Omx = require('node-omxplayer');
 let express = require('express');
 
@@ -91,29 +89,30 @@ app.get('/voldown', (req, res) => {
 });
 
 app.get('/chup', (req, res) => {
-	channelUp();
-	res.json({ nowPlaying: currentVideo});
+	res.json({ nowPlaying: channelUp() });
 });
 app.get('/chdown', (req, res) => {
-	channelDown();
-	res.json({ nowPlaying: currentVideo});
+	res.json({ nowPlaying: channelDown() });
 });
 
 console.log('Starting Pi TV Station');
 
 const basePath = "/media/video/TV/"
 const playlists = [
-	"Star Trek TNG/Star.Trek.The.Next.Generation.S01.NTSC.DVD.DD5.1.x264-JCH/",
 	"Sonic",
-	"Super Mario Bros/Super Mario Bros Super Show Vol2/SMBSS2 Disk 1",
+	"Star Trek TNG/Star.Trek.The.Next.Generation.S01.NTSC.DVD.DD5.1.x264-JCH/",
+	"Cosmos Original",
+	"ReBoot/Season 1",
 	"Super Mario Bros/Super Mario Brothers 3",
 	"Legend of Zelda",
-	"Cosmos/Season 1",
-	"Sliders/Sliders full/Season 1",
 	"The Real Ghostbusters - Season 1-7/Season 1 - 13 eps - dvdrip - mer-der",
-	"Cosmos Original",
+	"Sliders/Sliders full/Season 1",
+	"Super Mario Bros/Super Mario Bros Super Show Vol2/SMBSS2 Disk 1",
+]
+
+const disabledPlaylists = [
+
 	"Duckman",
-	"ReBoot/Season 1",
 	"Futurama/Futurama.COMPLETE.DVDRip.MiXED/Season Two",
 ]
 
@@ -123,26 +122,32 @@ let currentVideo = "";
 let currentPlaylistIndex = 0;
 let videoPath = "";
 
-
-	videoPath = basePath + playlists[currentPlaylistIndex];
+const loadPlaylist = () => {
+	videoPath = basePath + playlists[currentPlaylistIndex] + "/";
 
 	fs.readdir(videoPath, function(err, files){
 		if (err) {
 			return console.log('unable to scan dir ' + err);
 		}
 
-		episodes = files.reverse();
+		episodes = files.filter((file) => {
+			let regex = /\.nfo$/
+			return !regex.test(file)
+		}).reverse();
 		playNextVideo();
 	});
+}
 
 const channelUp = () => {
 	currentPlaylistIndex = (currentPlaylistIndex + 1) % playlists.length;
 	loadPlaylist();
+	return playlists[currentPlaylistIndex].replace(/\./g, ' ').replace(/\//g, ' ');
 }
 
 const channelDown = () => {
 	currentPlaylistIndex = (currentPlaylistIndex - 1) % playlists.length;
 	loadPlaylist();
+	return playlists[currentPlaylistIndex].replace(/\./g, ' ').replace(/\//g, ' ');
 }
 
 const playNextVideo = () => {
@@ -178,7 +183,6 @@ const playPrevVideo = () => {
 }
 
 let player = Omx();
-player.info();
 loadPlaylist();
 
 app.listen(port, () => {
