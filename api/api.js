@@ -19,18 +19,20 @@ const config = require('./config.json');
 const playlists = config.playlists
 
 let state = {
-	powerstate: false,
+	powerstate: true,
 	prevEpisodes: [],
 	episodes: [],
 	currentVideo: "",
 	currentPlaylistIndex: 0,
 	videoPath: "",
+	playing: false,
 }
 
 const sendDefaultResponse = (res) => {
 	return res.json({ 
 		nowPlaying: state.currentVideo,
 		powerState: state.powerstate,
+		playing: state.playing,
 	});
 }
 
@@ -87,11 +89,13 @@ app.get('/rr', (req, res) => {
 });
 
 app.get('/play', (req, res) => {
+	state.playing = true;
 	player.play();
 	return sendDefaultResponse (res);
 });
 
 app.get('/pause', (req, res) => {
+	state.playing = false;
 	player.pause();
 	return sendDefaultResponse (res);
 });
@@ -151,6 +155,7 @@ const playNextVideo = () => {
 	console.log("Play Next Video");
 	console.log(nextVideo);
 
+	state.playing = true;
 	player.newSource(state.videoPath + nextVideo);
 	if (state.currentVideo.length > 0){
 		state.prevEpisodes.push(state.currentVideo);
@@ -168,6 +173,7 @@ const playPrevVideo = () => {
 	console.log("Play Prev Video");
 	console.log(prevVideo);
 
+	state.playing = true;
 	player.newSource(state.videoPath + prevVideo);
         state.episodes.push(state.currentVideo);
 	state.currentVideo = prevVideo;
@@ -176,10 +182,11 @@ const playPrevVideo = () => {
 console.log('Starting Pi TV Station');
 let player = Omx();
 loadPlaylist();
+fetch(poweron);
 
-setTimeout(() => {
-	player.pause();
-}, 2000)
+//setTimeout(() => {
+//	player.pause();
+//}, 2000)
 
 app.listen(port, () => {
 	console.log("tv station up on " + port);
