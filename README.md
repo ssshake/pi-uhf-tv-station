@@ -1,6 +1,6 @@
 # pi-tv-stationi
 
-
+sudo apt-get update
 sudo apt-get install omxplayer
 
 ##Mount Videos From Network
