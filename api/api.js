@@ -140,7 +140,10 @@ const channelUp = () => {
 }
 
 const channelDown = () => {
-	state.currentPlaylistIndex = (state.currentPlaylistIndex - 1) % playlists.length;
+	state.currentPlaylistIndex--;
+	if (state.currentPlaylistIndex < 0){
+		state.currentPlaylistIndex = playlists.length - 1;
+	}
 	loadPlaylist();
 	return playlists[state.currentPlaylistIndex].replace(/\./g, ' ').replace(/\//g, ' ');
 }
