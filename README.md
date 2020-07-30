@@ -2,6 +2,10 @@
 
 [Youtube Video Demo](https://www.youtube.com/watch?v=cm9PoflKxNo&fbclid=IwAR2Gw8_QLGf8oV3qyyU5farEgbrHSqjyMK0ZQgp9mXTgAVxfp5L8BNI3iYk)
 
+![youtube video thumbnail](https://raw.githubusercontent.com/ssshake/pi-tv-station/master/docs/covertitle.jpg)
+
+![remote app](https://raw.githubusercontent.com/ssshake/pi-tv-station/master/docs/remote.jpg)
+
 
 ## Installation Prerequisites
 
