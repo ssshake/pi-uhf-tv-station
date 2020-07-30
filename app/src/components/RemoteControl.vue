@@ -9,15 +9,16 @@
 
     <div class="button-group">
       <button class="button" @click="button('volup')"><font-awesome-icon icon="volume-up"  fixed-width/></button>  
-      <button class="button" @click="button('pause')"><font-awesome-icon icon="pause"  fixed-width/></button>
-      <button class="button" @click="button('play')"><font-awesome-icon icon="play"  fixed-width/></button>
+
+      <button class="button blank" @click="recordButton"></button>
+      <button class="button blank" @click="stopButton"></button>
       <button class="button" @click="chup"><font-awesome-icon icon="sort-up" fixed-width />
         <!-- <div class="button-label">CH UP</div> -->
       </button>
     
       <button class="button" @click="button('voldown')"><font-awesome-icon icon="volume-down"  fixed-width/></button>
-      <button class="button" @click="recordButton"><font-awesome-icon icon="circle" style="color:red;" fixed-width/></button>
-      <button class="button" @click="stopButton"><font-awesome-icon icon="stop"  fixed-width/></button>
+      <button class="button" @click="button('pause')"><font-awesome-icon icon="pause"  fixed-width/></button>
+      <button class="button" @click="button('play')"><font-awesome-icon icon="play"  fixed-width/></button>
       <button class="button" @click="chdown"><font-awesome-icon icon="sort-down"  fixed-width/>
         <!-- <div class="button-label">CH DN</div> -->
       </button>
@@ -157,6 +158,13 @@ export default {
   .num {
     width: 70px;
   }
+
+  .blank {
+    width: 50px;
+    height: 30px;
+    visibility: hidden;
+  }
+
   .remote {
     //background-image: url('../assets/woodgrain.jpg');
     background: rgb(255,255,255);
