@@ -128,7 +128,7 @@ const loadPlaylist = () => {
 
 		state.videoIndex = 0;
 
-		playNextVideo();
+		loadVideo();
 	});
 }
 
