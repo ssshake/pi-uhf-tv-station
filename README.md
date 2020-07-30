@@ -3,10 +3,42 @@
 [Youtube Video Demo](https://www.youtube.com/watch?v=cm9PoflKxNo&fbclid=IwAR2Gw8_QLGf8oV3qyyU5farEgbrHSqjyMK0ZQgp9mXTgAVxfp5L8BNI3iYk)
 
 
-## Installation
+## Installation Prerequisites
 
 sudo apt-get update
-sudo apt-get install omxplayer
+
+sudo apt-get install omxplayer #command line video play for raspberry pi, written by member of Kodi team
+
+npm install pm2@latest -g #optional but recommended, used to how the API and App as system services
+
+pm2 startup #so that pm2 will start on reboot
+
+
+## Setup API as service
+
+cd api
+
+nvm use
+
+npm install
+
+pm2 start api.js --watch --name=uhf-api
+
+
+## Setup APP As Service
+
+cd app
+
+nvm use
+
+npm install
+
+npm run build
+
+cd dist
+
+pm2 serve . --watch --name=uhf-app
+
 
 ## Mount Videos From Network
 
@@ -21,22 +53,7 @@ mkdir /media/video
 mount -a
 
 
-## Setup API and APP as service
-
-npm install pm2@latest -g
-
-cd api
-
-pm2 start api.js --watch --name=uhf-api
-
-cd app
-
-pm2 serve . --watch --name=uhf-app
-
-pm2 startup
-
-
-## Configure Power On/Off
+## Configure Smart Plug Power On/Off
 
 Create an account at ifttt.com
 
