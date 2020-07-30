@@ -183,8 +183,21 @@ const playPrevVideo = () => {
 }
 
 console.log('Starting Pi TV Station');
+
 let player = Omx();
+
+player.on('error', (error) => {
+	console.log("An error occured")
+	console.log(error)
+})
+
+player.on('close', () => {
+	console.log("Playback has ended")
+	playNextVideo();
+})
+
 loadPlaylist();
+
 fetch(poweron);
 
 //setTimeout(() => {
@@ -195,5 +208,12 @@ app.listen(port, () => {
 	console.log("tv station up on " + port);
 });
 
+
+process.on('SIGINT', function() {
+	console.log("Shut down requested")
+	player.quit();
+	process.exit();
+	fetch(poweroff);
+});
 
 
