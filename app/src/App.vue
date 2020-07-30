@@ -22,7 +22,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: white;
-  overflow: hidden;
   background: rgb(103,111,150);
   background: radial-gradient(circle, rgba(103,111,150,1) 0%, rgba(24,25,28,1) 100%);
   padding: 15px;
@@ -38,7 +37,6 @@ body{
   height: 100vh;
   padding: 0;
   margin: 0;
-  overflow: hidden;
 }
 
 *{

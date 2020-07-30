@@ -1,0 +1,10 @@
+OPen 24 Display St is an original design of southype, is free for personal
+and non-profit use.
+
+Help my work, all donations are greatly appreciated.
+
+Paypal: southype@gmail.com
+
+Please visit my site, http://www.southype.com
+
+Thanks for download!!!

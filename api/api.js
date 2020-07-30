@@ -177,6 +177,10 @@ console.log('Starting Pi TV Station');
 let player = Omx();
 loadPlaylist();
 
+setTimeout(() => {
+	player.pause();
+}, 2000)
+
 app.listen(port, () => {
 	console.log("tv station up on " + port);
 });

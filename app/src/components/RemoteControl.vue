@@ -9,26 +9,37 @@
 
     <div class="button-group">
 
-      <button class="button" @click="backwardButton"><font-awesome-icon icon="backward" fixed-width /></button>
-      <button class="button" @click="playButton"><font-awesome-icon icon="play"  fixed-width/></button>
-      <button class="button" @click="pauseButton"><font-awesome-icon icon="pause"  fixed-width/></button>
-      <button class="button" @click="forwardButton"><font-awesome-icon icon="forward"  fixed-width/></button>
-      <button class="button" @click="prevButton"><font-awesome-icon icon="fast-backward"  fixed-width/></button>
-      <button class="button" @click="stopButton"><font-awesome-icon icon="stop"  fixed-width/></button>
-      <button class="button" @click="recordButton"><font-awesome-icon icon="circle" style="color:red;" fixed-width/></button>
-      <button class="button" @click="nextButton"><font-awesome-icon icon="fast-forward"  fixed-width/></button>
-    </div>
-
-    <div class="button-group">
       <button class="button" @click="volumeUpButton"><font-awesome-icon icon="volume-up"  fixed-width/></button>  
-      
-      <button class="button" @click="volumeMuteButton"><font-awesome-icon icon="volume-mute" fixed-width /></button>
-      <div style="width: 60px;"></div>    
+      <button class="button" @click="pauseButton"><font-awesome-icon icon="pause"  fixed-width/></button>
+      <button class="button" @click="playButton"><font-awesome-icon icon="play"  fixed-width/></button>
       <button class="button" @click="channelUpButton"><font-awesome-icon icon="sort-up" fixed-width /></button>
-      
+    
       <button class="button" @click="volumeDownButton"><font-awesome-icon icon="volume-down"  fixed-width/></button>
+      <button class="button" @click="recordButton"><font-awesome-icon icon="circle" style="color:red;" fixed-width/></button>
+      <button class="button" @click="stopButton"><font-awesome-icon icon="stop"  fixed-width/></button>
       <button class="button" @click="channelDownButton"><font-awesome-icon icon="sort-down"  fixed-width/></button>
+
+      <button class="button" @click="prevButton"><font-awesome-icon icon="fast-backward"  fixed-width/></button>
+      <button class="button" @click="backwardButton"><font-awesome-icon icon="backward" fixed-width /></button>
+      <button class="button" @click="forwardButton"><font-awesome-icon icon="forward"  fixed-width/></button>
+      <button class="button" @click="nextButton"><font-awesome-icon icon="fast-forward"  fixed-width/></button>
+
     </div>    
+
+  <div class="button-group">
+    <button class="button num" @click="num">7</button>
+    <button class="button num" @click="num">8</button>
+    <button class="button num" @click="num">9</button>
+    <button class="button num" @click="num">4</button>
+    <button class="button num" @click="num">5</button>
+    <button class="button num" @click="num">6</button>
+    <button class="button num" @click="num">1</button>
+    <button class="button num" @click="num">2</button>
+    <button class="button num" @click="num">3</button>
+    <button class="button num" @click="num">*</button>
+    <button class="button num" @click="num">0</button>
+    <button class="button num" @click="num">#</button>
+  </div>
     <div class="now-playing">
       {{ nowplaying }}
     </div>
@@ -52,6 +63,9 @@ export default {
         console.log(data)
         this.nowplaying = JSON.parse(data).nowPlaying
       }) 
+    },
+    num(){
+      console.log("num pressed")
     },
     nowPlaying(){
       this.genericGet(`${this.baseUrl}/nowplaying`);
@@ -121,8 +135,14 @@ export default {
 
 
 <style scoped>
+
+  .num {
+    width: 70px;
+  }
   .remote {
-    background-image: url('../assets/woodgrain.jpg');
+    //background-image: url('../assets/woodgrain.jpg');
+background: rgb(255,255,255);
+background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(172,175,181,1) 100%);
     background-size: cover;
     box-sizing: border-box;
     border-radius: 5px;
@@ -130,7 +150,7 @@ export default {
   }
 
 .now-playing{
-  color: lightgrey;
+  color: white;
   text-shadow: 1px 1px black;
   padding: 10px;
   font-size: 10pt;
@@ -139,8 +159,8 @@ export default {
 }
 
 .button-group{
-  background: rgb(103,111,150);
-  background: radial-gradient(circle, rgba(60,71,80,1) 0%, rgba(24,25,28,1) 100%);
+background: rgb(111,111,111);
+background: radial-gradient(circle, rgba(111,111,111,1) 0%, rgba(0,0,0,1) 100%);
   border-radius: 5px;
   margin: 20px 15px;
   padding: 14px;
