@@ -41,7 +41,7 @@
       <button class="button num" @click="num(1)">1</button>
       <button class="button num" @click="num(2)">2</button>
       <button class="button num" @click="num(3)">3</button>
-      <button class="button num hidden">*</button>
+      <button class="button num" @click="button('eject')"><font-awesome-icon icon="eject"  fixed-width/></button>
       <button class="button num" @click="num(0)">0</button>
       <button class="button num" @click="nowPlaying"><font-awesome-icon icon="retweet" fixed-width /></button>
     </div>
