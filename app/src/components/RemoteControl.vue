@@ -24,8 +24,8 @@
       </button>
     
       <button class="button" @click="button('voldown')"><font-awesome-icon icon="volume-down"  fixed-width/></button>
-      <button class="button blank" @click="recordButton"></button>
-      <button class="button blank" @click="stopButton"></button>      
+      <button class="button blank"></button>
+      <button class="button blank"></button>      
       <button class="button" @click="chdown"><font-awesome-icon icon="sort-down"  fixed-width/>
         <!-- <div class="button-label">CH DN</div> -->
       </button>
@@ -166,7 +166,8 @@ export default {
 
   .logo{
     font-family: sega;
-    color:rgba(168, 168, 168, 0.795);
+    color:rgb(143, 143, 143);
+    color:#909fa2cc;
     margin-left: 15px;
   }
 
@@ -185,8 +186,10 @@ export default {
   }
 
   .remote {
-    background: rgb(255,255,255);
-    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(172,175,181,1) 100%);
+    background: rgb(201,201,201);
+    background: linear-gradient(280deg, rgba(201,201,201,1) 32%, rgba(255,255,255,1) 49%, rgba(255,255,255,1) 55%, rgba(212,212,212,1) 71%);
+    /* background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(172,175,181,1) 100%); */
     background-size: cover;
     box-sizing: border-box;
     border-radius: 5px;
@@ -239,11 +242,11 @@ export default {
 
 .button {
   position: relative; 
-	box-shadow:inset 0px 1px 3px 0px #91b8b3;
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	background-color:#768d87;
+	box-shadow:inset 0px 1px 3px 0px #0c0c0c;
+	background:linear-gradient(to bottom, #525554 5%, #575858 100%);
+	background-color:#474948;
 	border-radius:2px;
-	border:1px solid #566963;
+	border:1px solid #353535;
 	display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
@@ -252,7 +255,7 @@ export default {
 	font-weight:bold;
 	padding:4px 12px;
 	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
+	text-shadow:0px -1px 0px #353535;
   margin: 4px 0px;
   
 
