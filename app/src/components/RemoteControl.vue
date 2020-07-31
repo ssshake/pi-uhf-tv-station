@@ -260,10 +260,7 @@ export default {
   
 
 }
-.button:hover {
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	background-color:#6c7c7c;
-}
+
 .button:active {
 	position:relative;
 	top:1px;
