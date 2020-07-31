@@ -123,6 +123,11 @@ app.get('/chdown', (req, res) => {
 	res.json({ nowPlaying: channelDown(), powerState: state.powerstate, playing: state.playing });//smell
 });
 
+app.get('/eject', (req, res) => {
+	sendDefaultResponse (res);
+	quit();
+});
+
 
 const loadPlaylist = () => {
 	state.videoPath = config.basePath + playlists[state.playlistIndex] + "/";
@@ -183,6 +188,13 @@ const loadVideo = () => {
 	state.currentVideo = nextVideo;
 }
 
+const quit = () => {
+	console.log("Shut down requested")
+	player.quit();
+	//fetch(poweroff);
+	process.exit();
+}
+
 
 player.on('error', (error) => {
 	console.log("An error occured")
@@ -203,10 +215,7 @@ app.listen(port, () => {
 });
 
 process.on('SIGINT', function() {
-	console.log("Shut down requested")
-	player.quit();
-	//fetch(poweroff);
-	process.exit();
+	quit();
 });
 
 
