@@ -6,7 +6,7 @@
       <button class="button" @click="powerButton"><font-awesome-icon icon="power-off" fixed-width/></button>
     </div>
 
-    <div class="now-playing">{{ lcd }}</div>
+    <div class="now-playing">{{ lcdDisplay }}</div>
 
     <div class="button-group">
 
@@ -41,7 +41,7 @@
       <button class="button num three-column" @click="num(1)">1</button>
       <button class="button num three-column" @click="num(2)">2</button>
       <button class="button num three-column" @click="num(3)">3</button>
-      <button class="button num three-column" @click="button('eject')"><font-awesome-icon icon="eject"  fixed-width/></button>
+      <button class="button num three-column" @click="button('stop')"><font-awesome-icon icon="eject"  fixed-width/></button>
       <button class="button num three-column" @click="num(0)">0</button>
       <button class="button num three-column" @click="nowPlaying"><font-awesome-icon icon="retweet" fixed-width /></button>
     </div>
@@ -55,12 +55,23 @@ export default {
   data: () => {
     return {
       baseUrl: 'http://10.0.0.20:3000', //pull from config
+      playlistName: '',
+      episodeIndex: 0,
       lcd: '',
       isPlaying: false,
       powerState: false,
       number: '',
       numberDebounce: undefined,
+      channelUpdateDebounce: undefined,
     };
+  },
+  computed: {
+    lcdDisplay(){
+      if (!this.lcd.length){
+        return this.playlistName;
+      }
+      return this.lcd
+    }
   },
   methods: {
     get(action){
@@ -72,6 +83,7 @@ export default {
         
         this.powerState = JSON.parse(data).powerState
         this.isPlaying = JSON.parse(data).playing
+        this.episodeIndex = JSON.parse(data).episodeIndex
         
         if (!this.powerState){
           this.lcd = "Transmitter Offline";
@@ -83,12 +95,10 @@ export default {
           return;
         } 
 
+        this.playlistName = JSON.parse(data).playlistName;
         this.lcd = JSON.parse(data).nowPlaying;
         
       });
-    },
-    debounce(){
-
     },
     button(action){
       this.get(action)
@@ -102,18 +112,22 @@ export default {
       console.log("power button")
     },
     chup(){
-      this.get(`chup`).then(() => {
-        setTimeout(() => {
-          this.nowPlaying();
-        }, 1000);
-      });
+      this.get(`chup`)
+      .then(() => {
+        clearTimeout(this.channelUpdateDebounce)
+        this.channelUpdateDebounce = setTimeout(() => {
+          this.nowPlaying()
+        }, 4000)
+      })
     },
     chdown(){
-      this.get(`chdown`).then(() => {
-        setTimeout(() => {
-          this.nowPlaying();
-        }, 1000);
-      });
+      this.get(`chdown`)
+      .then(() => {
+        clearTimeout(this.channelUpdateDebounce)
+        this.channelUpdateDebounce = setTimeout(() => {
+          this.nowPlaying()
+        }, 4000)
+      })      
     },
     ejectButton(){
       console.log("ejectButton button")
