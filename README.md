@@ -33,7 +33,7 @@ npm install
 pm2 start api.js --watch --name=uhf-api
 
 
-## Setup APP As Service
+## Setup APP as Service
 
 cd app
 
