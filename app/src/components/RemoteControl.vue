@@ -3,7 +3,9 @@
 
     <div class="button-invisible-group">
       <div class="logo">Pi TV Tuner</div>
-      <button class="button" @click="powerButton"><font-awesome-icon icon="power-off" fixed-width/></button>
+      <button class="button" @click="powerButton">
+        <font-awesome-icon icon="power-off" fixed-width/>
+      </button>
     </div>
 
     <div class="now-playing">{{ lcdDisplay }}</div>
@@ -269,7 +271,7 @@ export default {
 	padding:4px 12px;
 	text-decoration:none;
 	text-shadow:0px -1px 0px #353535;
-  margin: 4px 10px;
+  margin: 4px 0px;
 }
 
 .button:active {
@@ -278,6 +280,11 @@ export default {
 }
 
 @media only screen and (min-width: 768px) {
+  .button {
+    margin: 4px 10px;
+    font-size: 24pt;
+  }
+
   .four-column {
     flex-grow: 1;
     width: calc( 100% * (1/4) - 20px);
@@ -293,6 +300,16 @@ export default {
   .remote {
     width: 500px;
     height: 100%;
+  }
+
+  .now-playing{
+    font-size: 20pt;
+    min-height: 76px;
+    max-height: 76px;
+  }
+
+  .logo {
+    font-size: 17pt;
   }
 
 }
