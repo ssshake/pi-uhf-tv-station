@@ -1,7 +1,8 @@
 <template>
   <div class="remote">
 
-    <div class="button-invisible-group">   
+    <div class="button-invisible-group">
+      <div class="logo">Pi TV Tuner</div>
       <button class="button" @click="powerButton"><font-awesome-icon icon="power-off" fixed-width/></button>
     </div>
 
@@ -156,6 +157,19 @@ export default {
     font-style: normal;
   }
 
+  @font-face {
+    font-family: 'sega';
+    src: url('../assets/fonts/sega.ttf');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  .logo{
+    font-family: sega;
+    color:rgba(168, 168, 168, 0.795);
+    margin-left: 15px;
+  }
+
   .num {
     width: 70px;
   }
@@ -214,7 +228,7 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  flex-direction: row-reverse;
+  /* flex-direction: row-reverse; */
 }
 
 .button-label{
