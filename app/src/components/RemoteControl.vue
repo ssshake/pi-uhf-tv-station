@@ -8,25 +8,26 @@
     <div class="now-playing">{{ lcd }}</div>
 
     <div class="button-group">
-      <button class="button" @click="button('volup')"><font-awesome-icon icon="volume-up"  fixed-width/></button>  
-
-      <button class="button blank" @click="recordButton"></button>
-      <button class="button blank" @click="stopButton"></button>
-      <button class="button" @click="chup"><font-awesome-icon icon="sort-up" fixed-width />
-        <!-- <div class="button-label">CH UP</div> -->
-      </button>
-    
-      <button class="button" @click="button('voldown')"><font-awesome-icon icon="volume-down"  fixed-width/></button>
-      <button class="button" @click="button('pause')"><font-awesome-icon icon="pause"  fixed-width/></button>
-      <button class="button" @click="button('play')"><font-awesome-icon icon="play"  fixed-width/></button>
-      <button class="button" @click="chdown"><font-awesome-icon icon="sort-down"  fixed-width/>
-        <!-- <div class="button-label">CH DN</div> -->
-      </button>
 
       <button class="button" @click="button('prev')"><font-awesome-icon icon="fast-backward"  fixed-width/></button>
       <button class="button" @click="button('rr')"><font-awesome-icon icon="backward" fixed-width /></button>
       <button class="button" @click="button('ff')"><font-awesome-icon icon="forward"  fixed-width/></button>
       <button class="button" @click="button('next')"><font-awesome-icon icon="fast-forward"  fixed-width/></button>
+
+
+      <button class="button" @click="button('volup')"><font-awesome-icon icon="volume-up"  fixed-width/></button>  
+      <button class="button" @click="button('pause')"><font-awesome-icon icon="pause"  fixed-width/></button>
+      <button class="button" @click="button('play')"><font-awesome-icon icon="play"  fixed-width/></button>
+      <button class="button" @click="chup"><font-awesome-icon icon="sort-up" fixed-width />
+        <!-- <div class="button-label">CH UP</div> -->
+      </button>
+    
+      <button class="button" @click="button('voldown')"><font-awesome-icon icon="volume-down"  fixed-width/></button>
+      <button class="button blank" @click="recordButton"></button>
+      <button class="button blank" @click="stopButton"></button>      
+      <button class="button" @click="chdown"><font-awesome-icon icon="sort-down"  fixed-width/>
+        <!-- <div class="button-label">CH DN</div> -->
+      </button>
     </div>    
 
     <div class="button-group">
@@ -39,9 +40,9 @@
       <button class="button num" @click="num(1)">1</button>
       <button class="button num" @click="num(2)">2</button>
       <button class="button num" @click="num(3)">3</button>
-      <button class="button num">*</button>
+      <button class="button num hidden">*</button>
       <button class="button num" @click="num(0)">0</button>
-      <button class="button num">#</button>
+      <button class="button num hidden">#</button>
     </div>
 
   </div>
@@ -165,8 +166,11 @@ export default {
     visibility: hidden;
   }
 
+  .hidden {
+    visibility: nohiddenne;
+  }
+
   .remote {
-    //background-image: url('../assets/woodgrain.jpg');
     background: rgb(255,255,255);
     background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(172,175,181,1) 100%);
     background-size: cover;
