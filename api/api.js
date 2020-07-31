@@ -128,8 +128,7 @@ app.get('/chdown', (req, res) => {
 });
 
 app.get('/next', (req, res) => {
-	state.videoIndex = (state.videoIndex + 1) % state.episodes.length;
-	queueEpisodeChange();
+	playNextVideo();
 	return sendDefaultResponse (res);
 });
 
@@ -142,6 +141,10 @@ app.get('/prev', (req, res) => {
 	return sendDefaultResponse (res);
 });
 
+const playNextVideo = () => {
+	state.videoIndex = (state.videoIndex + 1) % state.episodes.length;
+	queueEpisodeChange();
+}
 
 const queueChannelChange = () => {
 	state.playlistName = playlists[state.playlistIndex].replace(/\./g, ' ').replace(/\//g, ' ');
