@@ -183,14 +183,15 @@ export default {
   color: white;
   text-shadow: 1px 1px black;
   padding: 10px;
-  font-size: 10pt;
+  font-size: 13pt;
   overflow: hidden;
   font-family: 'test';
   color: #0099CC;
   background-color: black;
   margin: 15px;
   border-radius: 3px;
-  min-height: 60px;
+  min-height: 68px;
+  max-height: 68px;
 }
 
 .button-group{

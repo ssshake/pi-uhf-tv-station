@@ -24,7 +24,7 @@ export default {
   color: white;
   background: rgb(103,111,150);
   background: radial-gradient(circle, rgba(103,111,150,1) 0%, rgba(24,25,28,1) 100%);
-  padding: 0px 15px;
+  padding: 15px;
 
   display: flex;
   flex-direction: column;
