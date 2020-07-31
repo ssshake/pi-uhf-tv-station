@@ -108,7 +108,6 @@ export default {
     },
     powerButton(){
       this.get(`power`);
-      this.pauseButton();
       console.log("power button")
     },
     chup(){
