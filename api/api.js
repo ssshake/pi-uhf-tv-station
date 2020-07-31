@@ -3,7 +3,7 @@ const fs = require('fs');
 const dotenv = require('dotenv');
 const fetch = require('node-fetch');
 const express = require('express');
-const Omx = require('node-omxplayer');
+const Omx = require('./omx.js');
 
 dotenv.config();
 
@@ -21,19 +21,25 @@ let state = {
 	powerstate: true,
 	playing: false,
 	playlistIndex: 0,
+	playlistName: "",
 	episodes: [],
 	videoIndex: 0,
 	currentVideo: "",
 	videoPath: "",
+	channelDebounce: undefined,
+	episodeDebounce: undefined,
 }
 
 let player = Omx();
 
-const sendDefaultResponse = (res) => {
+const sendDefaultResponse = (res, override = {}) => {
 	return res.json({ 
 		nowPlaying: state.currentVideo,
+		playlistName: state.playlistName,
 		powerState: state.powerstate,
 		playing: state.playing,
+		episodeIndex: state.videoIndex,
+		...override
 	});
 }
 
@@ -75,15 +81,6 @@ app.get('/number', (req, res) => {
 });
 
 
-app.get('/prev', (req, res) => {
-	playPrevVideo();
-	return sendDefaultResponse (res);
-});
-
-app.get('/next', (req, res) => {
-	playNextVideo();
-	return sendDefaultResponse (res);
-});
 
 app.get('/ff', (req, res) => {
 	player.fwd30();
@@ -117,15 +114,68 @@ app.get('/voldown', (req, res) => {
 });
 
 app.get('/chup', (req, res) => {
-	res.json({ nowPlaying: channelUp(), powerState: state.powerstate, playing: state.playing });//smell
+	state.playlistIndex = (state.playlistIndex + 1) % playlists.length;
+	queueChannelChange();
+	return sendDefaultResponse (res);
 });
 app.get('/chdown', (req, res) => {
-	res.json({ nowPlaying: channelDown(), powerState: state.powerstate, playing: state.playing });//smell
+	state.playlistIndex--;
+	if (state.playlistIndex < 0){
+		state.playlistIndex = playlists.length - 1;
+	}
+	queueChannelChange();
+	return sendDefaultResponse (res);
 });
+
+app.get('/next', (req, res) => {
+	state.videoIndex = (state.videoIndex + 1) % state.episodes.length;
+	queueEpisodeChange();
+	return sendDefaultResponse (res);
+});
+
+app.get('/prev', (req, res) => {
+	state.videoIndex--;
+	if (state.videoIndex < 0){
+		state.videoIndex = state.episodes.length - 1;
+	}
+	queueEpisodeChange();
+	return sendDefaultResponse (res);
+});
+
+
+const queueChannelChange = () => {
+	state.playlistName = playlists[state.playlistIndex].replace(/\./g, ' ').replace(/\//g, ' ');
+	state.currentVideo = "";
+
+	clearTimeout(state.channelDebounce)
+	state.channelDebounce = setTimeout(() => {
+	
+		console.log("INPUT DEBOUNCE")
+		loadPlaylist();
+
+	}, 2000)
+}
+
+const queueEpisodeChange = () => {
+	state.currentVideo = state.episodes[state.videoIndex];
+
+	clearTimeout(state.episodeDebounce)
+	state.episodeDebounce = setTimeout(() => {
+	
+		console.log("EPISODE DEBOUNCE")
+		loadVideo();
+
+	}, 2000)
+}
 
 app.get('/eject', (req, res) => {
 	sendDefaultResponse (res);
 	quit();
+});
+
+app.get('/stop', (req, res) => {
+	player.quit();
+	sendDefaultResponse (res);
 });
 
 
@@ -148,38 +198,6 @@ const loadPlaylist = () => {
 	});
 }
 
-const channelUp = () => {
-	state.playlistIndex = (state.playlistIndex + 1) % playlists.length;
-
-	loadPlaylist();
-	return playlists[state.playlistIndex].replace(/\./g, ' ').replace(/\//g, ' ');
-}
-
-const channelDown = () => {
-	state.playlistIndex--;
-	if (state.playlistIndex < 0){
-		state.playlistIndex = playlists.length - 1;
-	}
-
-	loadPlaylist();
-	return playlists[state.playlistIndex].replace(/\./g, ' ').replace(/\//g, ' ');
-}
-
-
-const playNextVideo = () => {
-	state.videoIndex = (state.videoIndex + 1) % state.episodes.length;
-
-	loadVideo();
-}
-
-const playPrevVideo = () => {
-	state.videoIndex--;
-	if (state.videoIndex < 0){
-		state.videoIndex = state.episodes.length - 1;
-	}
-
-	loadVideo();
-}
 
 const loadVideo = () => {
 	state.playing = true;
@@ -206,9 +224,6 @@ player.on('close', () => {
 	playNextVideo();
 })
 
-loadPlaylist();
-
-fetch(poweron);
 
 app.listen(port, () => {
 	console.log("tv station up on " + port);
@@ -219,3 +234,5 @@ process.on('SIGINT', function() {
 });
 
 
+loadPlaylist();
+fetch(poweron);
