@@ -10,40 +10,40 @@
 
     <div class="button-group">
 
-      <button class="button" @click="button('prev')"><font-awesome-icon icon="fast-backward"  fixed-width/></button>
-      <button class="button" @click="button('rr')"><font-awesome-icon icon="backward" fixed-width /></button>
-      <button class="button" @click="button('ff')"><font-awesome-icon icon="forward"  fixed-width/></button>
-      <button class="button" @click="button('next')"><font-awesome-icon icon="fast-forward"  fixed-width/></button>
+      <button class="button four-column" @click="button('prev')"><font-awesome-icon icon="fast-backward"  fixed-width/></button>
+      <button class="button four-column" @click="button('rr')"><font-awesome-icon icon="backward" fixed-width /></button>
+      <button class="button four-column" @click="button('ff')"><font-awesome-icon icon="forward"  fixed-width/></button>
+      <button class="button four-column" @click="button('next')"><font-awesome-icon icon="fast-forward"  fixed-width/></button>
 
 
-      <button class="button" @click="button('volup')"><font-awesome-icon icon="volume-up"  fixed-width/></button>  
-      <button class="button" @click="button('pause')"><font-awesome-icon icon="pause"  fixed-width/></button>
-      <button class="button" @click="button('play')"><font-awesome-icon icon="play"  fixed-width/></button>
-      <button class="button" @click="chup"><font-awesome-icon icon="sort-up" fixed-width />
+      <button class="button four-column" @click="button('volup')"><font-awesome-icon icon="volume-up"  fixed-width/></button>  
+      <button class="button four-column" @click="button('pause')"><font-awesome-icon icon="pause"  fixed-width/></button>
+      <button class="button four-column" @click="button('play')"><font-awesome-icon icon="play"  fixed-width/></button>
+      <button class="button four-column" @click="chup"><font-awesome-icon icon="sort-up" fixed-width />
         <!-- <div class="button-label">CH UP</div> -->
       </button>
     
-      <button class="button" @click="button('voldown')"><font-awesome-icon icon="volume-down"  fixed-width/></button>
-      <button class="button blank"></button>
-      <button class="button blank"></button>      
-      <button class="button" @click="chdown"><font-awesome-icon icon="sort-down"  fixed-width/>
+      <button class="button four-column" @click="button('voldown')"><font-awesome-icon icon="volume-down"  fixed-width/></button>
+      <button class="button four-column blank"></button>
+      <button class="button four-column blank"></button>      
+      <button class="button four-column" @click="chdown"><font-awesome-icon icon="sort-down"  fixed-width/>
         <!-- <div class="button-label">CH DN</div> -->
       </button>
     </div>    
 
     <div class="button-group">
-      <button class="button num" @click="num(7)">7</button>
-      <button class="button num" @click="num(8)">8</button>
-      <button class="button num" @click="num(9)">9</button>
-      <button class="button num" @click="num(4)">4</button>
-      <button class="button num" @click="num(5)">5</button>
-      <button class="button num" @click="num(6)">6</button>
-      <button class="button num" @click="num(1)">1</button>
-      <button class="button num" @click="num(2)">2</button>
-      <button class="button num" @click="num(3)">3</button>
-      <button class="button num" @click="button('eject')"><font-awesome-icon icon="eject"  fixed-width/></button>
-      <button class="button num" @click="num(0)">0</button>
-      <button class="button num" @click="nowPlaying"><font-awesome-icon icon="retweet" fixed-width /></button>
+      <button class="button num three-column" @click="num(7)">7</button>
+      <button class="button num three-column" @click="num(8)">8</button>
+      <button class="button num three-column" @click="num(9)">9</button>
+      <button class="button num three-column" @click="num(4)">4</button>
+      <button class="button num three-column" @click="num(5)">5</button>
+      <button class="button num three-column" @click="num(6)">6</button>
+      <button class="button num three-column" @click="num(1)">1</button>
+      <button class="button num three-column" @click="num(2)">2</button>
+      <button class="button num three-column" @click="num(3)">3</button>
+      <button class="button num three-column" @click="button('eject')"><font-awesome-icon icon="eject"  fixed-width/></button>
+      <button class="button num three-column" @click="num(0)">0</button>
+      <button class="button num three-column" @click="nowPlaying"><font-awesome-icon icon="retweet" fixed-width /></button>
     </div>
 
   </div>
@@ -152,7 +152,7 @@ export default {
 
   @font-face {
     font-family: 'test';
-    src: url('../assets/fonts/digital-7.ttf');
+    src: url('../assets/fonts/digital-7 (mono).ttf');
     font-weight: normal;
     font-style: normal;
   }
@@ -256,13 +256,32 @@ export default {
 	padding:4px 12px;
 	text-decoration:none;
 	text-shadow:0px -1px 0px #353535;
-  margin: 4px 0px;
-  
-
+  margin: 4px 10px;
 }
 
 .button:active {
 	position:relative;
 	top:1px;
 }
+
+@media only screen and (min-width: 768px) {
+  .four-column {
+    flex-grow: 1;
+    width: calc( 100% * (1/4) - 20px);
+    height: 60px;
+  }
+
+  .three-column {
+    flex-grow: 1;
+    width: calc( 100% * (1/3) - 20px);
+    height: 60px;
+  }
+
+  .remote {
+    width: 500px;
+    height: 100%;
+  }
+
+}
+
 </style>
