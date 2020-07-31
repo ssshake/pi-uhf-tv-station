@@ -32,6 +32,13 @@ export default {
   justify-content: center;
 }
 
+@media only screen and (min-width: 768px) {
+  #app {
+    height:100%;
+  }
+
+}
+
 body{
   width: 100%;
   height: 100vh;
