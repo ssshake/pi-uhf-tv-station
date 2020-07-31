@@ -44,4 +44,8 @@ body{
   touch-action: manipulation;
   user-select: none;
 }
+
+:focus {
+outline: 0;
+}
 </style>
