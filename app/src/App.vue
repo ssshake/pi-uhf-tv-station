@@ -42,5 +42,6 @@ body{
 *{
   box-sizing: border-box;
   touch-action: manipulation;
+  user-select: none;
 }
 </style>
