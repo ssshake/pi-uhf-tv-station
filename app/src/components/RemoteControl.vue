@@ -183,10 +183,6 @@ export default {
     width: 70px;
   }
 
-  .pwr {
-    padding: 10px 25px !important;
-  }
-
   .blank {
     width: 50px;
     height: 30px;
@@ -309,6 +305,10 @@ export default {
 
     .logo {
       font-size: 17pt;
+    }
+
+    .pwr {
+      padding: 10px 25px !important;
     }
 
   }
