@@ -3,7 +3,7 @@
 
     <div class="button-invisible-group">
       <div class="logo">Pi TV Tuner</div>
-      <button class="button" @click="powerButton"><font-awesome-icon icon="power-off" fixed-width/></button>
+      <button class="button pwr" @click="powerButton"><font-awesome-icon icon="power-off" fixed-width/></button>
     </div>
 
     <div class="now-playing">{{ lcdDisplay }}</div>
@@ -175,12 +175,16 @@ export default {
   .logo{
     font-family: sega;
     color:rgb(143, 143, 143);
-    color:#909fa2cc;
+    color:#909fa277;
     margin-left: 15px;
   }
 
   .num {
     width: 70px;
+  }
+
+  .pwr {
+    padding: 10px 25px !important;
   }
 
   .blank {
@@ -274,7 +278,7 @@ export default {
 
   @media only screen and (min-width: 768px) {
     .button {
-      margin: 4px 10px;
+      margin: 8px 10px;
       font-size: 24pt;
     }
 
@@ -292,7 +296,9 @@ export default {
 
     .remote {
       width: 500px;
-      height: 100%;
+      /* height: 100%; */
+      padding-top: 10px;
+      padding-bottom: 180px;
     }
 
     .now-playing{
