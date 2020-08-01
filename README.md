@@ -16,7 +16,7 @@ The controls for advancing through playlists and episodes has been refined while
 
 > Forward/Back progress through episodes in the playlists
 
-> Punching in digits on the number page will go to that video number after a short delay
+> Punching in digits on the number pad will go to that video number after a short delay
 
 > Navigating through playlists or episodes gives quick feedback on the LCD screen, while also preventing spamming of change video requests
 
