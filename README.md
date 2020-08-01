@@ -4,10 +4,6 @@ The Raspberry Pi makes an excellent candidate for a homebrew UHF television stat
 
 By adding a smart wall-plug (via IFTTT) to control the power to the transmitter, this makes for a fully remote controlled solution. At a whim you can power on an old UHF television, open up the remote software on a phone or PC, toggle the power on, and start streaming from a selection of playlists.
 
-![youtube video thumbnail](https://raw.githubusercontent.com/ssshake/pi-tv-station/master/docs/covertitle.jpg)
-[Youtube Video Demo](https://www.youtube.com/watch?v=cm9PoflKxNo&fbclid=IwAR2Gw8_QLGf8oV3qyyU5farEgbrHSqjyMK0ZQgp9mXTgAVxfp5L8BNI3iYk)
-*The remote software shown in this video is quite outdated now, this is a reminder to update this link.
-
 ![remote app](https://raw.githubusercontent.com/ssshake/pi-uhf-tv-station/master/docs/Annotation%202020-07-31%20204636.jpg)
 
 The controls for advancing through playlists and episodes has been refined while still keeping a remote control feel. 
@@ -20,6 +16,9 @@ The controls for advancing through playlists and episodes has been refined while
 
 > Navigating through playlists or episodes gives quick feedback on the LCD screen, while also preventing spamming of change video requests
 
+![youtube video thumbnail](https://raw.githubusercontent.com/ssshake/pi-tv-station/master/docs/covertitle.jpg)
+[Youtube Video Demo](https://www.youtube.com/watch?v=cm9PoflKxNo&fbclid=IwAR2Gw8_QLGf8oV3qyyU5farEgbrHSqjyMK0ZQgp9mXTgAVxfp5L8BNI3iYk)
+*The remote software shown in this video is quite outdated now, this is a reminder to update this link.
 
 ## Hardware Required
 
