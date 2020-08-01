@@ -10,6 +10,17 @@ By adding a smart wall-plug (via IFTTT) to control the power to the transmitter,
 
 ![remote app](https://raw.githubusercontent.com/ssshake/pi-uhf-tv-station/master/docs/Annotation%202020-07-31%20204636.jpg)
 
+The controls for advancing through playlists and episodes has been refined while still keeping a remote control feel. 
+
+> Channel Up/Down progress through playlists. 
+
+> Forward/Back progress through episodes in the playlists
+
+> Punching in digits on the number page will go to that video number after a short delay
+
+> Navigating through playlists or episodes gives quick feedback on the LCD screen, while also preventing spamming of change video requests
+
+
 ## Hardware Required
 
 A UHF/VHF TV Transmitter with Composite Video 
