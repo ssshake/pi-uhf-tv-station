@@ -6,6 +6,7 @@ By adding a smart wall-plug (via IFTTT) to control the power to the transmitter,
 
 ![youtube video thumbnail](https://raw.githubusercontent.com/ssshake/pi-tv-station/master/docs/covertitle.jpg)
 [Youtube Video Demo](https://www.youtube.com/watch?v=cm9PoflKxNo&fbclid=IwAR2Gw8_QLGf8oV3qyyU5farEgbrHSqjyMK0ZQgp9mXTgAVxfp5L8BNI3iYk)
+*The remote software shown in this video is quite outdated not, this is a reminder to update this link.
 
 ![remote app](https://raw.githubusercontent.com/ssshake/pi-uhf-tv-station/master/docs/Annotation%202020-07-31%20204636.jpg)
 
