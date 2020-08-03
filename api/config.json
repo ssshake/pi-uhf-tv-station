@@ -1,9 +1,14 @@
 {
 "basePath": "/media/video/TV/",
 "playlists": [
+	"Short Circuitz",
+	"Duckman",
+	"Futurama/Futurama.COMPLETE.DVDRip.MiXED/Season Two",
 	"Star Trek TNG/Star.Trek.The.Next.Generation.S05.NTSC.DVD.DD5.1.x264-JCH",
 	"Computer Chronicles/scrape/season4/archive.org/download/Computer_Chronicles/Season 04",
 	"ReBoot/Season 1",
+	"ReBoot/Season 2",
+	"ReBoot/Season 3",
 	"Star Trek TNG/Star.Trek.The.Next.Generation.S01.NTSC.DVD.DD5.1.x264-JCH",
 	"Sonic",
 	"Cosmos Original",
@@ -12,11 +17,9 @@
 	"The Real Ghostbusters - Season 1-7/Season 1 - 13 eps - dvdrip - mer-der",
 	"Sliders/Sliders full/Season 1",
 	"Super Mario Bros/Super Mario Bros Super Show Vol2/SMBSS2 Disk 1",
-	"Star Trek TNG/Star.Trek.The.Next.Generation.S03.NTSC.DVD.DD5.1.x264-JCH"
+	"Star Trek TNG/Star.Trek.The.Next.Generation.S04.NTSC.DVD.DD5.1.x264-JCH"
 ],
 "disabledPlaylists": [
-	"Duckman",
-	"Futurama/Futurama.COMPLETE.DVDRip.MiXED/Season Two"
 ]
 
 }
