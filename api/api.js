@@ -13,8 +13,6 @@ const port = process.env.PORT || 3000;
 
 const config = require('./config.json');
 
-const playlists = config.playlists
-
 const debounceDelay = 750;
 
 const poweron = `https://maker.ifttt.com/trigger/uhf_power_on/with/key/${process.env.IFTTT_KEY}`;
@@ -89,6 +87,7 @@ app.get('/number', (req, res) => {
 
 	if (req.query.number <= state.episodes.length && req.query.number > 0) {
 		state.videoIndex = req.query.number - 1
+		setVideoIndexOnPlaylist(req.query.number - 1)
 		loadVideo();
 	}
 
@@ -129,14 +128,14 @@ app.get('/voldown', (req, res) => {
 });
 
 app.get('/chup', (req, res) => {
-	state.playlistIndex = (state.playlistIndex + 1) % playlists.length;
+	state.playlistIndex = (state.playlistIndex + 1) % state.playlists.length;
 	queueChannelChange();
 	return sendDefaultResponse (res);
 });
 app.get('/chdown', (req, res) => {
 	state.playlistIndex--;
 	if (state.playlistIndex < 0){
-		state.playlistIndex = playlists.length - 1;
+		state.playlistIndex = state.playlists.length - 1;
 	}
 	queueChannelChange();
 	return sendDefaultResponse (res);
@@ -148,22 +147,40 @@ app.get('/next', (req, res) => {
 });
 
 app.get('/prev', (req, res) => {
+		
+	let newIndex = getVideoIndexFromPlaylist() - 1;
+
+	if (newIndex < 0) {
+		newIndex = currentPlaylist().videos.length -1;
+	}
+	
+	setVideoIndexOnPlaylist(newIndex) //new
+
+	
+	
 	state.videoIndex--;
 	if (state.videoIndex < 0){
 		state.videoIndex = state.episodes.length - 1;
 	}
+	
+	
 	queueEpisodeChange();
 	return sendDefaultResponse (res);
 });
 
 const playNextVideo = () => {
-	state.videoIndex = (state.videoIndex + 1) % state.episodes.length;
+	state.videoIndex = (state.videoIndex + 1) % state.episodes.length; //old
+	
+
+	setVideoIndexOnPlaylist((getVideoIndexFromPlaylist() + 1) % currentPlaylist().videos.length) //new
+
+
 	queueEpisodeChange();
 }
 
 const queueChannelChange = () => {
-	state.playlistName = playlists[state.playlistIndex].replace(/\./g, ' ').replace(/\//g, ' ');
-	state.currentVideo = "";
+	state.playlistName = currentPlaylist().name.replace(/\./g, ' ').replace(/\//g, ' '); //currentPlaylist().name
+	state.currentVideo = "";	//calculatedCurrentVideo
 
 	clearTimeout(state.channelDebounce)
 	state.channelDebounce = setTimeout(() => {
@@ -172,6 +189,22 @@ const queueChannelChange = () => {
 		loadPlaylist();
 
 	}, debounceDelay)
+}
+
+const currentPlaylist = () => {
+	return state.playlists[state.playlistIndex];
+}
+
+const setVideoIndexOnPlaylist = (index) => {
+	state.playlists[state.playlistIndex].index = index;
+}
+
+const getVideoIndexFromPlaylist = () => {
+	return state.playlists[state.playlistIndex].index;
+}
+
+const calculatedCurrentVideo = () => {
+	return currentPlaylist().videos[currentPlaylist().index];
 }
 
 const queueEpisodeChange = () => {
@@ -199,17 +232,19 @@ app.get('/stop', (req, res) => {
 
 const loadPlaylist = () => {
 
-	state.videoPath = config.basePath + playlists[state.playlistIndex] + "/";
+	state.videoPath = config.basePath + currentPlaylist().name + "/";	//replace
 	
-	if (!state.playlists[state.playlistIndex].videos.length){
+	if (!currentPlaylist().videos.length){
 
 		console.log("No videos yet so lets get some")
 		
-		state.playlists[state.playlistIndex].videos = videoFinder.getVideosInFolder(state.videoPath);
+		currentPlaylist().videos = videoFinder.getVideosInFolder(state.videoPath); //replace state.videopath
 
 	}
 
-	fs.readdir(state.videoPath, function(err, files){
+	console.dir(state.playlists)
+
+	fs.readdir(state.videoPath, function(err, files){	//replace
 		if (err) {
 			return console.log('unable to scan dir ' + err);
 		}
@@ -229,7 +264,10 @@ const loadPlaylist = () => {
 const loadVideo = () => {
 	state.playing = true;
 	let nextVideo = state.episodes[state.videoIndex];
-	player.newSource(state.videoPath + nextVideo);
+
+	let newNextVideo = calculatedCurrentVideo(); //new
+	
+	player.newSource(state.videoPath + nextVideo); //replace and why does it do it this way?
 	state.currentVideo = nextVideo;
 }
 
