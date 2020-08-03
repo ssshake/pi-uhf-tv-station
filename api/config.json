@@ -1,6 +1,7 @@
 {
 "basePath": "/media/video/TV/",
 "playlists": [
+	"Duckman/Duckman Season 1 Transcoded",
 	"Futurama/Futurama Season 1 Transcoded",
 	"X-Men/X-men Season 1 Transcoded",
 	"Short Circuitz",
@@ -18,11 +19,6 @@
 	"Sliders/Sliders full/Season 1",
 	"Super Mario Bros/Super Mario Bros Super Show Vol2/SMBSS2 Disk 1",
 	"Star Trek TNG/Star.Trek.The.Next.Generation.S04.NTSC.DVD.DD5.1.x264-JCH"
-],
-"disabledPlaylists": [
-	"Duckman",
-	"Futurama/Futurama.COMPLETE.DVDRip.MiXED/Season Two"
 ]
-
 }
 

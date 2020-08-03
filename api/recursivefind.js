@@ -1,8 +1,20 @@
 var path = require('path')
 var fs = require('fs')
 
-function recFindByExt(base,ext,files,videos) 
+function getVideosInFolder(base,files,videos) 
 {
+
+	const fileExtensions  = [
+		'avi',
+		'mpg',
+		'mp4',
+		'm4v',
+		'mkv',
+		'mov',
+		'wmv',
+	]
+
+
     files = files || fs.readdirSync(base) 
     videos = videos || []
 
@@ -11,11 +23,13 @@ function recFindByExt(base,ext,files,videos)
             var newbase = path.join(base,file)
             if ( fs.statSync(newbase).isDirectory() )
             {
-                videos = recFindByExt(newbase,ext,fs.readdirSync(newbase),videos)
+                videos = recFindByExt(newbase,fs.readdirSync(newbase),videos)
             }
             else
             {
-                if ( file.substr(-1*(ext.length+1)) == '.' + ext )
+		const extension = file.substr( -1 * ( 3 ) )
+
+                if ( fileExtensions.includes(extension))
                 {
 		    videos.push({
 			    filename: file,
@@ -31,20 +45,9 @@ function recFindByExt(base,ext,files,videos)
     return videos
 }
 
-const fileExtensions  = [
-	'avi',
-	'mpg',
-	'mpeg',
-	'mp4',
-	'm4v',
-	'mkv',
-	'mov',
-	'wmv',
-]
 
 const rootPath = '/media/video/TV/ReBoot/'
 
-ext_file_list = recFindByExt(rootPath,'mp4')
+const playlistFiles = getVideosInFolder(rootPath)
 
-console.dir(ext_file_list)
-
+console.log(playlistFiles)
