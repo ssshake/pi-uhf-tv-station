@@ -33,7 +33,6 @@ function getVideosInFolder(base,files,videos)
                 {
 		    videos.push({
 			    filename: file,
-			    rootPath: rootPath,
 			    basePath: base,
 			    fullPath: newbase
 
@@ -45,9 +44,6 @@ function getVideosInFolder(base,files,videos)
     return videos
 }
 
-
-const rootPath = '/media/video/TV/ReBoot/'
-
-const playlistFiles = getVideosInFolder(rootPath)
-
-console.log(playlistFiles)
+module.exports = {
+	getVideosInFolder
+}

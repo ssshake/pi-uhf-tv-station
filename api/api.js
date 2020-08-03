@@ -3,7 +3,8 @@ const fs = require('fs');
 const dotenv = require('dotenv');
 const fetch = require('node-fetch');
 const express = require('express');
-const Omx = require('./omx.js');
+const Omx = require('./lib/omx.js');
+const videoFinder = require('./lib/videofinder.js');
 
 dotenv.config();
 
@@ -14,6 +15,8 @@ const config = require('./config.json');
 
 const playlists = config.playlists
 
+const debounceDelay = 750;
+
 const poweron = `https://maker.ifttt.com/trigger/uhf_power_on/with/key/${process.env.IFTTT_KEY}`;
 const poweroff = `https://maker.ifttt.com/trigger/uhf_power_off/with/key/${process.env.IFTTT_KEY}`;
 
@@ -22,6 +25,7 @@ let state = {
 	playing: false,
 	playlistIndex: 0,
 	playlistName: "",
+	playlists: [],
 	episodes: [],
 	videoIndex: 0,
 	currentVideo: "",
@@ -29,6 +33,17 @@ let state = {
 	channelDebounce: undefined,
 	episodeDebounce: undefined,
 }
+
+state.playlists = config.playlists.map((name) => {
+	return {
+		name: name,
+		index: 0,
+		videos: [],
+
+	}
+});
+
+
 
 let player = Omx();
 
@@ -156,7 +171,7 @@ const queueChannelChange = () => {
 		console.log("INPUT DEBOUNCE")
 		loadPlaylist();
 
-	}, 2000)
+	}, debounceDelay)
 }
 
 const queueEpisodeChange = () => {
@@ -168,7 +183,7 @@ const queueEpisodeChange = () => {
 		console.log("EPISODE DEBOUNCE")
 		loadVideo();
 
-	}, 2000)
+	}, debounceDelay)
 }
 
 app.get('/eject', (req, res) => {
@@ -183,7 +198,16 @@ app.get('/stop', (req, res) => {
 
 
 const loadPlaylist = () => {
+
 	state.videoPath = config.basePath + playlists[state.playlistIndex] + "/";
+	
+	if (!state.playlists[state.playlistIndex].videos.length){
+
+		console.log("No videos yet so lets get some")
+		
+		state.playlists[state.playlistIndex].videos = videoFinder.getVideosInFolder(state.videoPath);
+
+	}
 
 	fs.readdir(state.videoPath, function(err, files){
 		if (err) {
@@ -211,8 +235,6 @@ const loadVideo = () => {
 
 const quit = () => {
 	console.log("Shut down requested")
-	player.quit();
-	//fetch(poweroff);
 	process.exit();
 }
 
