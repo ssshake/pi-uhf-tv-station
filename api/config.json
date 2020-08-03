@@ -1,9 +1,9 @@
 {
 "basePath": "/media/video/TV/",
 "playlists": [
+	"Futurama/Futurama Season 1 Transcoded",
+	"X-Men/X-men Season 1 Transcoded",
 	"Short Circuitz",
-	"Duckman",
-	"Futurama/Futurama.COMPLETE.DVDRip.MiXED/Season Two",
 	"Star Trek TNG/Star.Trek.The.Next.Generation.S05.NTSC.DVD.DD5.1.x264-JCH",
 	"Computer Chronicles/scrape/season4/archive.org/download/Computer_Chronicles/Season 04",
 	"ReBoot/Season 1",
@@ -20,6 +20,8 @@
 	"Star Trek TNG/Star.Trek.The.Next.Generation.S04.NTSC.DVD.DD5.1.x264-JCH"
 ],
 "disabledPlaylists": [
+	"Duckman",
+	"Futurama/Futurama.COMPLETE.DVDRip.MiXED/Season Two"
 ]
 
 }
