@@ -32,6 +32,7 @@ function getVideosInFolder(base,files,videos)
                 if ( fileExtensions.includes(extension))
                 {
 		    videos.push({
+			    name: file,
 			    filename: file,
 			    basePath: base,
 			    fullPath: newbase
@@ -41,7 +42,7 @@ function getVideosInFolder(base,files,videos)
             }
         }
     )
-    return videos
+    return videos.sort((a,b) => (a.name > b.name) ? 1 : -1 )
 }
 
 module.exports = {

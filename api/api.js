@@ -22,12 +22,7 @@ let state = {
 	powerstate: true,
 	playing: false,
 	playlistIndex: 0,
-	playlistName: "",
 	playlists: [],
-	episodes: [],
-	videoIndex: 0,
-	currentVideo: "",
-	videoPath: "",
 	channelDebounce: undefined,
 	episodeDebounce: undefined,
 }
@@ -46,14 +41,20 @@ state.playlists = config.playlists.map((name) => {
 let player = Omx();
 
 const sendDefaultResponse = (res, override = {}) => {
-	return res.json({ 
-		nowPlaying: state.currentVideo,
-		playlistName: state.playlistName,
+	let nowPlaying = "";
+	if (calculatedCurrentVideo()){
+		nowPlaying = calculatedCurrentVideo().name
+	}
+		
+	const response = { 
+		nowPlaying: nowPlaying,
 		powerState: state.powerstate,
 		playing: state.playing,
-		episodeIndex: state.videoIndex,
 		...override
-	});
+	};
+	response.nowPlaying = response.nowPlaying.replace(/\./g, ' ').replace(/\//g, ' ')
+
+	return res.json(response)
 }
 
 app.use(function(req, res, next){
@@ -85,8 +86,7 @@ app.get('/power', (req, res) => {
 app.get('/number', (req, res) => {
 	console.log("requested episode #" + req.query.number)
 
-	if (req.query.number <= state.episodes.length && req.query.number > 0) {
-		state.videoIndex = req.query.number - 1
+	if (req.query.number <= currentPlaylist().videos.length && req.query.number > 0) {
 		setVideoIndexOnPlaylist(req.query.number - 1)
 		loadVideo();
 	}
@@ -130,15 +130,17 @@ app.get('/voldown', (req, res) => {
 app.get('/chup', (req, res) => {
 	state.playlistIndex = (state.playlistIndex + 1) % state.playlists.length;
 	queueChannelChange();
-	return sendDefaultResponse (res);
+	return sendDefaultResponse (res, { nowPlaying: currentPlaylist().name })
 });
+
 app.get('/chdown', (req, res) => {
 	state.playlistIndex--;
 	if (state.playlistIndex < 0){
 		state.playlistIndex = state.playlists.length - 1;
 	}
+
 	queueChannelChange();
-	return sendDefaultResponse (res);
+	return sendDefaultResponse (res, { nowPlaying: currentPlaylist().name })
 });
 
 app.get('/next', (req, res) => {
@@ -155,33 +157,18 @@ app.get('/prev', (req, res) => {
 	}
 	
 	setVideoIndexOnPlaylist(newIndex) //new
-
-	
-	
-	state.videoIndex--;
-	if (state.videoIndex < 0){
-		state.videoIndex = state.episodes.length - 1;
-	}
-	
 	
 	queueEpisodeChange();
 	return sendDefaultResponse (res);
 });
 
 const playNextVideo = () => {
-	state.videoIndex = (state.videoIndex + 1) % state.episodes.length; //old
-	
-
 	setVideoIndexOnPlaylist((getVideoIndexFromPlaylist() + 1) % currentPlaylist().videos.length) //new
-
 
 	queueEpisodeChange();
 }
 
 const queueChannelChange = () => {
-	state.playlistName = currentPlaylist().name.replace(/\./g, ' ').replace(/\//g, ' '); //currentPlaylist().name
-	state.currentVideo = "";	//calculatedCurrentVideo
-
 	clearTimeout(state.channelDebounce)
 	state.channelDebounce = setTimeout(() => {
 	
@@ -208,8 +195,6 @@ const calculatedCurrentVideo = () => {
 }
 
 const queueEpisodeChange = () => {
-	state.currentVideo = state.episodes[state.videoIndex];
-
 	clearTimeout(state.episodeDebounce)
 	state.episodeDebounce = setTimeout(() => {
 	
@@ -232,43 +217,27 @@ app.get('/stop', (req, res) => {
 
 const loadPlaylist = () => {
 
-	state.videoPath = config.basePath + currentPlaylist().name + "/";	//replace
+	let playlistPath = config.basePath + currentPlaylist().name + "/";
 	
+
 	if (!currentPlaylist().videos.length){
 
 		console.log("No videos yet so lets get some")
 		
-		currentPlaylist().videos = videoFinder.getVideosInFolder(state.videoPath); //replace state.videopath
+		currentPlaylist().videos = videoFinder.getVideosInFolder(playlistPath);
 
 	}
 
 	console.dir(state.playlists)
 
-	fs.readdir(state.videoPath, function(err, files){	//replace
-		if (err) {
-			return console.log('unable to scan dir ' + err);
-		}
-
-		state.episodes = files.filter((file) => {
-			let regex = /\.nfo$/
-			return !regex.test(file)
-		}).sort();
-
-		state.videoIndex = 0;
-
-		loadVideo();
-	});
+	loadVideo();
 }
 
 
 const loadVideo = () => {
 	state.playing = true;
-	let nextVideo = state.episodes[state.videoIndex];
-
-	let newNextVideo = calculatedCurrentVideo(); //new
 	
-	player.newSource(state.videoPath + nextVideo); //replace and why does it do it this way?
-	state.currentVideo = nextVideo;
+	player.newSource(calculatedCurrentVideo().fullPath);
 }
 
 const quit = () => {
