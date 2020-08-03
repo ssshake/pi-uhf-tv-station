@@ -23,7 +23,7 @@ function getVideosInFolder(base,files,videos)
             var newbase = path.join(base,file)
             if ( fs.statSync(newbase).isDirectory() )
             {
-                videos = recFindByExt(newbase,fs.readdirSync(newbase),videos)
+                videos = getVideosInFolder(newbase,fs.readdirSync(newbase),videos)
             }
             else
             {
