@@ -13,7 +13,7 @@ const port = process.env.PORT || 3000;
 
 const config = require('./config.json');
 
-const debounceDelay = 750;
+const debounceDelay = 2000;
 
 const poweron = `https://maker.ifttt.com/trigger/uhf_power_on/with/key/${process.env.IFTTT_KEY}`;
 const poweroff = `https://maker.ifttt.com/trigger/uhf_power_off/with/key/${process.env.IFTTT_KEY}`;
@@ -75,8 +75,21 @@ app.get('/power', (req, res) => {
 
 	let url = state.powerstate ? poweroff : poweron;
 
+
 	fetch(url).then(() => {
 		state.powerstate = !state.powerstate;
+
+		
+		if (state.powerstate && !state.playing){ //if shutting down and video is playing, then pause
+			state.playing = true;
+			player.play();
+		}
+		if (!state.powerstate && state.playing){ //if turning on and video is pause, then play
+			state.playing = false;
+			player.play();
+		}
+
+		
 		console.log("should power cycle to" + state.powerstate);
 		return sendDefaultResponse (res);
 	});
