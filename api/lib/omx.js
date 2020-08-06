@@ -47,6 +47,8 @@ function buildArgs (source, givenOutput, loop, initialVolume, showOsd) {
 		args.push('--vol', initialVolume);
 	}
 
+	args.push('--aspect-mode', 'fill');
+
 	return args;
 
 }
