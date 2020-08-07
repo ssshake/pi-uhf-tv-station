@@ -17,8 +17,8 @@ The controls for advancing through playlists and episodes has been refined while
 > Navigating through playlists or episodes gives quick feedback on the LCD screen, while also preventing spamming of change video requests
 
 ![youtube video thumbnail](https://raw.githubusercontent.com/ssshake/pi-tv-station/master/docs/covertitle.jpg)
-[Latest Video Demo](https://www.youtube.com/watch?v=Oq-FLTx2E1g)
-[Youtube Video Demo](https://www.youtube.com/watch?v=cm9PoflKxNo&fbclid=IwAR2Gw8_QLGf8oV3qyyU5farEgbrHSqjyMK0ZQgp9mXTgAVxfp5L8BNI3iYk)
+- [Latest Video Demo](https://www.youtube.com/watch?v=Oq-FLTx2E1g)
+- [Original Video Demo](https://www.youtube.com/watch?v=cm9PoflKxNo&fbclid=IwAR2Gw8_QLGf8oV3qyyU5farEgbrHSqjyMK0ZQgp9mXTgAVxfp5L8BNI3iYk)
 *The remote software shown in this video is quite outdated now, this is a reminder to update this link.
 
 ## Hardware Required
