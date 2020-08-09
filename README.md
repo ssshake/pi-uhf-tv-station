@@ -10,7 +10,7 @@ The UHF wireless transmitter is optional, but a very cool option at that. Howeve
 
 It is a perfectly fine solution to connect the pi directly to a vintage CRT television over RCA (composite video) cables or even to a modern television over HDMI. In this mode I would pretend that the pi is a mini cable TV box from 1995. That would feel suitable to the experience in my opinion. 
 
-By adding a smart wall-plug (via IFTTT) to control the power to the transmitter, this makes for a fully remote controlled solution. At a whim you can power on an old UHF television, open up the remote software on a phone or PC, toggle the power on, and start streaming from a selection of playlists.
+If using the UHF transmitter, by adding a smart wall-plug (via IFTTT) to control the power to the transmitter, this makes for a fully remote controlled solution. At a whim you can power on an old UHF television, open up the remote software on a phone or PC, toggle the power on, and start streaming from a selection of playlists.
 
 ![remote app](https://raw.githubusercontent.com/ssshake/pi-uhf-tv-station/master/docs/Annotation%202020-07-31%20204636.jpg)
 
