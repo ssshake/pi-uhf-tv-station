@@ -49,9 +49,9 @@ I bought mine off ebay and it was about $100
 
 This is a very good option if you have a PAL television. This is not a good option for NTSC televisions because the audio will not work. 
 
-This option is cheap and has a surprisingly clean signal for both video and audio. The range is not as good as option 1. 
+This option is cheap and has a surprisingly clean signal for both video and audio. The range is not as good as option 1. You can choose from a subset of frequencies/channels.
 
-You can choose from a subset of frequencies/channels
+What I love about this option is that you could solder it directly to the audio/video pins on the pi itself, giving you a all-in-one solution.
 
 I bought this device for $15 off AliExpress.
 
