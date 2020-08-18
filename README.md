@@ -125,7 +125,7 @@ Associate these webhooks with your smart plug of choice
 
 Get your API key
 
-Add IFTTT_KEY=[your key] to the .env in the api directory
+Add IFTTT_KEY=[your key] to the .env in the api directory (see .env.example)
 
 ![webhook](https://raw.githubusercontent.com/ssshake/pi-uhf-tv-station/master/docs/ifttt.jpg)
 
