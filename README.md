@@ -31,7 +31,7 @@ The controls for advancing through playlists and episodes has been refined while
 
 ## Hardware Options
 
-The point of this project was to make use of my Game Gear TV Tuner, so this requires a UHF transmitter. Howver you could plug the pi directly into an old CRT TV, and old VCR, or a modern TV with composite inputs. 
+The point of this project was to make use of my Game Gear TV Tuner, so this requires a UHF transmitter. However you could plug the pi directly into an old CRT TV, and old VCR, or a modern TV with composite inputs. 
 
 There are a few options for buying or building a UHF transmitter. 
 
