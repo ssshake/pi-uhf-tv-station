@@ -29,11 +29,41 @@ The controls for advancing through playlists and episodes has been refined while
 - [Original Video Demo](https://www.youtube.com/watch?v=cm9PoflKxNo&fbclid=IwAR2Gw8_QLGf8oV3qyyU5farEgbrHSqjyMK0ZQgp9mXTgAVxfp5L8BNI3iYk)
 *The remote software shown in this video is quite outdated now, this is a reminder to update this link.
 
-## Hardware Required
+## Hardware Options
 
-A UHF/VHF TV Transmitter with Composite Video 
+The point of this project was to make use of my Game Gear TV Tuner, so this requires a UHF transmitter. Howver you could plug the pi directly into an old CRT TV, and old VCR, or a modern TV with composite inputs. 
+
+There are a few options for buying or building a UHF transmitter. 
+
+### Option 1: Hlly TVX-50M
 
 ![tv transmitter](https://raw.githubusercontent.com/ssshake/pi-tv-station/master/docs/tvtransmitter.jpg)
+
+This is the most expensive solution but the most robust. You can set the device to any frequency for video and audio, this means you can pick which channel it broadcasts on and which audio profile it has so that it supports both PAL and NTSC TV.
+
+This device also has an impressive range.
+
+I bought mine off ebay and it was about $100
+
+### Option 2: UHF 200mW video wireless transmitter
+
+This is a very good option if you have a PAL television. This is not a good option for NTSC televisions because the audio will not work. 
+
+This option is cheap and has a surprisingly clean signal for both video and audio. The range is not as good as option 1. 
+
+You can choose from a subset of frequencies/channels
+
+I bought this device for $15 off AliExpress.
+
+![pal uhf transmitter](https://raw.githubusercontent.com/ssshake/pi-uhf-tv-station/master/docs/PAL%20UHF%20Transmitter.jpg)
+
+### Option 3: Build your own transmitter using a VCR and Signal Booster
+
+Like in this video, you can use an old VCR with coax output, run into a signal booter to build a poor-mans UHF transmitter. I think this is an excellent solution if you can get your hands on the parts for free or cheap. I personally don't know where I would find the booster other than a random find at a thrift store. I'll be keeping an eye out for these.
+
+[YOUTUBE: Turn your old VHS video player into a TV transmitter](https://youtu.be/XCIJUga8b9Y?t=97)
+
+
 
 ## Installation Prerequisites
 
