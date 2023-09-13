@@ -2,7 +2,7 @@
 
 ![youtubescreenshot](https://raw.githubusercontent.com/ssshake/pi-uhf-tv-station/master/docs/ytscreenshot.jpg)
 
-The purpose of this project is to give you the fell of late 1900's broadcast television using modern hardware and software. This broadcast can be viewed on vintage televisions as well as modern telelvisions. 
+The purpose of this project is to give you the feel of late 1900's broadcast television using modern hardware and software. This broadcast can be viewed on vintage televisions as well as modern telelvisions. 
 
 The Raspberry Pi makes an excellent candidate for a homebrew UHF television station because it has composite video out baked into the hardware. That's a rare thing to find on a modern device. 
 
