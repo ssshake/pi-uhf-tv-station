@@ -1,7 +1,3 @@
 #!/bin/bash
-
-sudo mount //10.0.0.10/Video /media/video/ -t cifs -o username=share
-
-/usr/bin/node /home/pi/pitv/api/api.js
-
-echo "should start front end"
+pm2 serve ./app/dist 8080 --watch --name uhf-app
+pm2 start ./api/api.js --watch --name uhf-api
