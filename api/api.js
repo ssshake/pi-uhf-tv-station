@@ -26,7 +26,7 @@ let state = {
 	playlists: [],
 	channelDebounce: undefined,
 	episodeDebounce: undefined,
-	demoMode: false,
+	shuffleMode: false,
 }
 
 state.playlists = config.playlists.map((name) => {
@@ -44,6 +44,7 @@ let player = Omx();
 let shuffleLoop;
 const shuffleOff = () => {
 	console.log("shuffle off");
+	state.shuffleMode = false
 	if (shuffleLoop){
 		clearInterval(shuffleLoop);
 	}
@@ -59,7 +60,7 @@ const sendDefaultResponse = (res, override = {}) => {
 		nowPlaying: nowPlaying,
 		powerState: state.powerstate,
 		playing: state.playing,
-		demoMode: state.demoMode,
+		shuffleMode: state.shuffleMode,
 		...override
 	};
 	response.nowPlaying = response.nowPlaying.replace(/\./g, ' ').replace(/\//g, ' ')
@@ -69,6 +70,7 @@ const sendDefaultResponse = (res, override = {}) => {
 
 app.use(function(req, res, next){
 	res.setHeader('Access-Control-Allow-Origin', '*');
+	shuffleOff();
 	next();
 })
 
@@ -141,20 +143,13 @@ app.get('/shuffle', async (req, res) => {
 
 	};
 
-	//stop demo mode
-	if(state.demoMode){
-		shuffleOff();
-	} 
-
 	//start demo mode
-	else {
-		console.log("shuffle on");
-		await shuffle();
-		shuffleLoop = setInterval(async () => { await shuffle()}, shuffleDelay);	
-	}
+	console.log("shuffle on");
+	await shuffle();
+	shuffleLoop = setInterval(async () => { await shuffle()}, shuffleDelay);	
 
 	//why doesn't this work?
-	state.demoMode = !state.demoMode;
+	state.shuffleMode = true;
 	return sendDefaultResponse (res);
 });
 
