@@ -14,6 +14,7 @@ const port = process.env.PORT || 3000;
 const config = require('./config.json');
 
 const debounceDelay = 2000;
+const shuffleDelay = 10000;
 
 const poweron = `https://maker.ifttt.com/trigger/uhf_power_on/with/key/${process.env.IFTTT_KEY}`;
 const poweroff = `https://maker.ifttt.com/trigger/uhf_power_off/with/key/${process.env.IFTTT_KEY}`;
@@ -25,6 +26,7 @@ let state = {
 	playlists: [],
 	channelDebounce: undefined,
 	episodeDebounce: undefined,
+	demoMode: false,
 }
 
 state.playlists = config.playlists.map((name) => {
@@ -39,6 +41,14 @@ state.playlists = config.playlists.map((name) => {
 
 let player = Omx();
 
+let shuffleLoop;
+const shuffleOff = () => {
+	console.log("shuffle off");
+	if (shuffleLoop){
+		clearInterval(shuffleLoop);
+	}
+}
+
 const sendDefaultResponse = (res, override = {}) => {
 	let nowPlaying = "";
 	if (calculatedCurrentVideo()){
@@ -49,6 +59,7 @@ const sendDefaultResponse = (res, override = {}) => {
 		nowPlaying: nowPlaying,
 		powerState: state.powerstate,
 		playing: state.playing,
+		demoMode: state.demoMode,
 		...override
 	};
 	response.nowPlaying = response.nowPlaying.replace(/\./g, ' ').replace(/\//g, ' ')
@@ -106,26 +117,44 @@ app.get('/number', (req, res) => {
 	return sendDefaultResponse (res);
 });
 
-app.get('/shuffle', (req, res) => {
-	
-	//thinking this should actually cycle between videos evey 30 seconds
-	
-	//and fast forward a random amount
-	player.fwd600();
-	
-	//pick a random playlist
-	//
-	//pick a random video
-	//
-	//should this be on demand or a toggle that changes the next video ongoing?
+app.get('/shuffle', async (req, res) => {
+	const shuffle = async () => {
+		//pick a new video
 
-	//set a flag?
-	//
-	//setInterval?
-	//
-	//clear flag?
-	//
-	//
+		//change playlist random
+		state.playlistIndex = Math.floor( Math.random() * state.playlists.length );
+		await loadPlaylist();
+
+		//change video random
+		setVideoIndexOnPlaylist( Math.floor( Math.random() * currentPlaylist().videos.length ) )
+		//player.quit();			
+		//play that video
+		loadVideo();
+		
+
+		//fast forward
+		setTimeout(() => {
+			player.fwd30();
+			console.log(">>> FAST FORWARD")
+		}, 1000)
+			
+
+	};
+
+	//stop demo mode
+	if(state.demoMode){
+		shuffleOff();
+	} 
+
+	//start demo mode
+	else {
+		console.log("shuffle on");
+		await shuffle();
+		shuffleLoop = setInterval(async () => { await shuffle()}, shuffleDelay);	
+	}
+
+	//why doesn't this work?
+	state.demoMode = !state.demoMode;
 	return sendDefaultResponse (res);
 });
 
@@ -201,12 +230,13 @@ const playNextVideo = () => {
 	queueEpisodeChange();
 }
 
-const queueChannelChange = () => {
+const queueChannelChange = async () => {
 	clearTimeout(state.channelDebounce)
-	state.channelDebounce = setTimeout(() => {
+	state.channelDebounce = setTimeout(async() => {
 	
 		console.log("INPUT DEBOUNCE")
-		loadPlaylist();
+		await loadPlaylist();
+		loadVideo();
 
 	}, debounceDelay)
 }
@@ -248,7 +278,7 @@ app.get('/stop', (req, res) => {
 });
 
 
-const loadPlaylist = () => {
+const loadPlaylist = async () => {
 
 	let playlistPath = config.basePath + currentPlaylist().name + "/";
 	
@@ -256,14 +286,12 @@ const loadPlaylist = () => {
 	if (!currentPlaylist().videos.length){
 
 		console.log("No videos yet so lets get some")
-		
-		currentPlaylist().videos = videoFinder.getVideosInFolder(playlistPath);
+		currentPlaylist().videos = await videoFinder.getVideosInFolder(playlistPath);
 
 	}
 
-	console.dir(state.playlists)
+	//console.dir(state.playlists)
 
-	loadVideo();
 }
 
 
@@ -271,6 +299,7 @@ const loadVideo = () => {
 	state.playing = true;
 	
 	player.newSource(calculatedCurrentVideo().fullPath);
+	console.log("NEW SOURCE <<<<")
 }
 
 const quit = () => {
@@ -298,6 +327,10 @@ process.on('SIGINT', function() {
 	quit();
 });
 
+const start = async() => {
+	await loadPlaylist();
+	loadVideo();
+	fetch(poweron);
+}
 
-loadPlaylist();
-fetch(poweron);
+start()

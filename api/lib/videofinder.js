@@ -1,7 +1,7 @@
 var path = require('path')
-var fs = require('fs')
+var fs = require('fs').promises
 
-function getVideosInFolder(base,files,videos) 
+async function getVideosInFolder(base,files,videos) 
 {
 
 	const fileExtensions  = [
@@ -15,20 +15,20 @@ function getVideosInFolder(base,files,videos)
 	]
 
 
-    files = files || fs.readdirSync(base) 
+    files = files || await fs.readdir(base) 
     videos = videos || []
 
-    files.forEach( 
-        function (file) {
+    for(file of files){
             var newbase = path.join(base,file)
-            if ( fs.statSync(newbase).isDirectory() )
+            const foo = await fs.stat(newbase)
+	    if ( foo.isDirectory() )
             {
-                videos = getVideosInFolder(newbase,fs.readdirSync(newbase),videos)
+		const dir = await fs.readdir(newbase)
+                videos = await getVideosInFolder(newbase,dir,videos)
             }
             else
             {
 		const extension = file.substr( -1 * ( 3 ) )
-
                 if ( fileExtensions.includes(extension))
                 {
 		    videos.push({
@@ -40,8 +40,7 @@ function getVideosInFolder(base,files,videos)
 		    })
                 } 
             }
-        }
-    )
+    }
     return videos.sort((a,b) => (a.name > b.name) ? 1 : -1 )
 }
 
