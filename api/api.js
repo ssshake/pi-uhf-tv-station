@@ -37,7 +37,6 @@ state.playlists = config.playlists.map((name) => {
 });
 
 
-
 let player = Omx();
 
 const sendDefaultResponse = (res, override = {}) => {
@@ -107,7 +106,28 @@ app.get('/number', (req, res) => {
 	return sendDefaultResponse (res);
 });
 
+app.get('/shuffle', (req, res) => {
+	
+	//thinking this should actually cycle between videos evey 30 seconds
+	
+	//and fast forward a random amount
+	player.fwd600();
+	
+	//pick a random playlist
+	//
+	//pick a random video
+	//
+	//should this be on demand or a toggle that changes the next video ongoing?
 
+	//set a flag?
+	//
+	//setInterval?
+	//
+	//clear flag?
+	//
+	//
+	return sendDefaultResponse (res);
+});
 
 app.get('/ff', (req, res) => {
 	player.fwd30();
