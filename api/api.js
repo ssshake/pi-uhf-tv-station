@@ -14,7 +14,7 @@ const port = process.env.PORT || 3000;
 const config = require('./config.json');
 
 const debounceDelay = 2000;
-const shuffleDelay = 10000;
+const shuffleDelay = 30000;
 
 const poweron = `https://maker.ifttt.com/trigger/uhf_power_on/with/key/${process.env.IFTTT_KEY}`;
 const poweroff = `https://maker.ifttt.com/trigger/uhf_power_off/with/key/${process.env.IFTTT_KEY}`;
@@ -119,6 +119,10 @@ app.get('/number', (req, res) => {
 	return sendDefaultResponse (res);
 });
 
+function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+} 
+
 app.get('/shuffle', async (req, res) => {
 	const shuffle = async () => {
 		//pick a new video
@@ -131,16 +135,25 @@ app.get('/shuffle', async (req, res) => {
 		setVideoIndexOnPlaylist( Math.floor( Math.random() * currentPlaylist().videos.length ) )
 		//player.quit();			
 		//play that video
+		console.log("LOAD VIDEO")
 		loadVideo();
 		
-
-		//fast forward
-		setTimeout(() => {
-			player.fwd30();
-			console.log(">>> FAST FORWARD")
-		}, 1000)
-			
-
+		
+		await delay(1000);
+		console.log(">>> FAST FORWARD")
+		player.fwd30();
+		
+		await delay(100);
+		console.log(">>> FAST FORWARD")
+		player.fwd30();
+	
+		await delay(100);
+		console.log(">>> FAST FORWARD")
+		player.fwd30();
+		
+		await delay(100);
+		console.log(">>> FAST FORWARD")
+		player.fwd30();
 	};
 
 	//start demo mode
