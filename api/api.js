@@ -14,7 +14,7 @@ const port = process.env.PORT || 3000;
 const config = require('./config.json');
 
 const debounceDelay = 2000;
-const shuffleDelay = 30000;
+const shuffleDelay = 60000;
 
 const poweron = `https://maker.ifttt.com/trigger/uhf_power_on/with/key/${process.env.IFTTT_KEY}`;
 const poweroff = `https://maker.ifttt.com/trigger/uhf_power_off/with/key/${process.env.IFTTT_KEY}`;
