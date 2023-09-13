@@ -1,34 +1,12 @@
 {
-"basePath": "/media/video/UHF/",
+"basePath": "/home/pi/video/",
 "playlists": [
-	"ATT Archives",	
-	"Nerd TV",
-	"Bad Influence",
-	"Games Master",
-	"VandA Top10",
-	"Bits and Bytes",
-	"ElectricPlayground",
-	"Icons",
 	"Computer Chronicles",
 	"ScreenSavers",
-	"Documentary Channel",
-	"RetroTV",
-	"SeaQuest DSV",
-	"The Movie Network",
-	"X-Men/Transcoded",
 	"Short Circuitz",
 	"ReBoot",
-	"Star Trek TNG/Star.Trek.The.Next.Generation.S05.NTSC.DVD.DD5.1.x264-JCH",
-	"Cosmos Original",
-	"Futurama/Futurama Season 1 Transcoded",
-	"Super Mario Bros/Super Mario Brothers 3",
-	"Legend of Zelda",
-	"Star Trek TNG/Star.Trek.The.Next.Generation.S01.NTSC.DVD.DD5.1.x264-JCH",
-	"The Real Ghostbusters - Season 1-7/Season 1 - 13 eps - dvdrip - mer-der",
-	"Sliders/Sliders full/Season 1",
-	"Super Mario Bros/Super Mario Bros Super Show Vol2/SMBSS2 Disk 1",
-	"Duckman/Duckman Season 1 Transcoded",
-	"Sonic"
+	"RetroTV",
+	"ElectricPlayground"
 ]
 }
 

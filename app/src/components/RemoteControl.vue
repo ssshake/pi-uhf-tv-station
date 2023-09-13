@@ -49,7 +49,7 @@ export default {
   name: 'RemoteControl',
   data: () => {
     return {
-      baseUrl: 'http://10.0.0.20:3000', //pull from config
+      baseUrl: 'http://192.168.1.3:3000', //pull from config
       playlistName: '',
       episodeIndex: 0,
       lcd: '',
@@ -217,6 +217,7 @@ export default {
     border-radius: 3px;
     min-height: 68px;
     max-height: 68px;
+    line-height: 2rem;
   }
 
   .button-group{
@@ -300,7 +301,7 @@ export default {
     .now-playing{
       font-size: 20pt;
       min-height: 96px;
-      max-height: 96px;
+      max-height: 120px;
     }
 
     .logo {
