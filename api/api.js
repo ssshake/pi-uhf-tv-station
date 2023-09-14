@@ -26,6 +26,7 @@ let state = {
 	playlists: [],
 	channelDebounce: undefined,
 	episodeDebounce: undefined,
+	shuffleThrottle: undefined,
 	shuffleMode: false,
 }
 
@@ -139,26 +140,29 @@ app.get('/shuffle', async (req, res) => {
 		loadVideo();
 		
 		
-		await delay(1000);
+		await delay(3500);
 		console.log(">>> FAST FORWARD")
 		player.fwd30();
 		
-		await delay(100);
+		await delay(150);
 		console.log(">>> FAST FORWARD")
 		player.fwd30();
 	
-		await delay(100);
+		await delay(150);
 		console.log(">>> FAST FORWARD")
 		player.fwd30();
 		
-		await delay(100);
-		console.log(">>> FAST FORWARD")
-		player.fwd30();
 	};
+
+	if (state.shuffleThrottle) {
+		console.log("Asking to shuffle too soon")
+		return sendDefaultResponse (res);
+	}
+	state.shuffleThrottle = setTimeout(async() => { state.shuffleThrottle = undefined }, 5000)
 
 	//start demo mode
 	console.log("shuffle on");
-	await shuffle();
+	await shuffle(); //awaiting is blocking this route but if I dont await things break in playback
 	shuffleLoop = setInterval(async () => { await shuffle()}, shuffleDelay);	
 
 	//why doesn't this work?
