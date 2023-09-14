@@ -39,6 +39,8 @@
       <button class="button num three-column" @click="button('stop')"><font-awesome-icon icon="eject"  fixed-width/></button>
       <button class="button num three-column" @click="num(0)">0</button>
       <button class="button num three-column" @click="nowPlaying"><font-awesome-icon icon="retweet" fixed-width /></button>
+    </div>
+    <div class="button-group">
       <button class="button num three-column" @click="button('shuffle')"><font-awesome-icon icon="question"  fixed-width/></button>
     </div>
 
