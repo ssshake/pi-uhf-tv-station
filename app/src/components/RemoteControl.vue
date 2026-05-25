@@ -52,7 +52,7 @@ export default {
   name: 'RemoteControl',
   data: () => {
     return {
-      baseUrl: 'http://192.168.1.3:3000', //pull from config
+      baseUrl: 'http://10.0.0.22:3000', //pull from config
       playlistName: '',
       episodeIndex: 0,
       lcd: '',

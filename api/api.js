@@ -13,11 +13,12 @@ const port = process.env.PORT || 3000;
 
 const config = require('./config.json');
 
+console.log('cwd:', process.cwd())
+
 const debounceDelay = 2000;
 const shuffleDelay = 60000;
-
-const poweron = `https://maker.ifttt.com/trigger/uhf_power_on/with/key/${process.env.IFTTT_KEY}`;
-const poweroff = `https://maker.ifttt.com/trigger/uhf_power_off/with/key/${process.env.IFTTT_KEY}`;
+const poweron = `http://10.0.0.16:8123/api/webhook/${process.env.ON_KEY}`;
+const poweroff = `http://10.0.0.16:8123/api/webhook/${process.env.OFF_KEY}`;
 
 let state = {
 	powerstate: true,
@@ -47,6 +48,7 @@ const shuffleOff = () => {
 	console.log("shuffle off");
 	state.shuffleMode = false
 	if (shuffleLoop){
+		console.log("clearing shuffle interval")
 		clearInterval(shuffleLoop);
 	}
 }
@@ -88,7 +90,7 @@ app.get('/power', (req, res) => {
 
 	let url = state.powerstate ? poweroff : poweron;
 
-
+	console.log("fetching")
 	fetch(url).then(() => {
 		state.powerstate = !state.powerstate;
 
@@ -138,7 +140,7 @@ app.get('/shuffle', async (req, res) => {
 		//play that video
 		console.log("LOAD VIDEO")
 		loadVideo();
-		
+		console.log(player)	
 		
 		await delay(3500);
 		console.log(">>> FAST FORWARD")

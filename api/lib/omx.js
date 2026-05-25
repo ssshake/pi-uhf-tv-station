@@ -125,7 +125,9 @@ function Omx (source, output, loop, initialVolume, showOsd) {
 
 		if (open) {
 
-			player.on('close', () => { player = spawnPlayer(src, out, loop, initialVolume, showOsd); });
+			player.on('close', () => { 
+				console.log("--------> newSource Happened")
+				player = spawnPlayer(src, out, loop, initialVolume, showOsd); });
 			player.removeListener('close', updateStatus);
 			writeStdin('q');
 			//player && player.kill('SIGTERM')
