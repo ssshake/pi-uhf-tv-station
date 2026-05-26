@@ -53,6 +53,11 @@ body {
 /* Mobile: fill the screen */
 @media only screen and (max-width: 767px) {
   html,
+  body {
+    background: #d4d4d4;
+  }
+
+  html,
   body,
   #app {
     height: 100%;
@@ -66,6 +71,7 @@ body {
     padding: 0;
     align-items: stretch;
     justify-content: stretch;
+    background: #d4d4d4;
   }
 
   #app > * {

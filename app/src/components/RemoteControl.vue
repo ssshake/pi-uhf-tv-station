@@ -46,6 +46,8 @@
     </div>
     </div>
 
+    <div class="remote-tail" aria-hidden="true"></div>
+
   </div>
 </template>
 
@@ -293,18 +295,43 @@ export default {
     font-size: 1.35em;
   }
 
+  .remote-tail {
+    display: none;
+  }
+
   @media only screen and (max-width: 767px) {
     .remote {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       width: 100%;
       height: 100%;
-      min-height: 100dvh;
+      height: 100dvh;
       border-radius: 0;
+      box-shadow: none;
       box-sizing: border-box;
       padding-top: env(safe-area-inset-top, 0);
       padding-bottom: env(safe-area-inset-bottom, 0);
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      /* No pure-white band in the diagonal desktop gradient */
+      background: linear-gradient(
+        180deg,
+        #c9c9c9 0%,
+        #e8e8e8 28%,
+        #d4d4d4 45%,
+        #d4d4d4 100%
+      );
+    }
+
+    .remote-tail {
+      display: block;
+      flex: 1 1 0;
+      min-height: 0;
+      background: #d4d4d4;
     }
 
     .button-invisible-group,
@@ -323,24 +350,14 @@ export default {
 
     .remote-controls {
       --btn-gap: 8px;
-      --section-gap: clamp(10px, 2vh, 18px);
-      --btn-h: clamp(38px, 6.8vh, 50px);
-      --numpad-btn-h: clamp(44px, 7.8vh, 58px);
-      flex: 1 1 0;
-      min-height: 0;
+      --section-gap: clamp(8px, 1.5vh, 14px);
+      --btn-h: clamp(36px, 6vh, 48px);
+      --numpad-btn-h: clamp(42px, 6.8vh, 54px);
+      flex: 0 0 auto;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
       gap: var(--section-gap);
-      padding: 0 12px 8px;
-      overflow: hidden;
-    }
-
-    /* Leftover height goes below the button sections (remote “tail”) */
-    .remote-controls::after {
-      content: '';
-      flex: 1 1 0;
-      min-height: 0;
+      padding: 0 12px;
     }
 
     .button-group {
@@ -366,11 +383,6 @@ export default {
       grid-template-rows: repeat(4, var(--numpad-btn-h));
     }
 
-    .button-group.cols-3:not(.footer) .button {
-      height: var(--numpad-btn-h);
-      max-height: var(--numpad-btn-h);
-    }
-
     .button-group.footer {
       grid-template-rows: var(--btn-h);
     }
@@ -388,13 +400,18 @@ export default {
       justify-content: center;
     }
 
+    .button-group.cols-3:not(.footer) .button {
+      height: var(--numpad-btn-h);
+      max-height: var(--numpad-btn-h);
+    }
+
     .num {
       width: auto;
     }
 
     .blank {
       width: 100%;
-      height: var(--btn-h);
+      height: 100%;
     }
   }
 
