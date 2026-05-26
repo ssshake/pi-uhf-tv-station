@@ -19,12 +19,12 @@
       <button class="button four-column" @click="button('volup')"><font-awesome-icon icon="volume-up"  fixed-width/></button>  
       <button class="button four-column" @click="button('pause')"><font-awesome-icon icon="pause"  fixed-width/></button>
       <button class="button four-column" @click="button('play')"><font-awesome-icon icon="play"  fixed-width/></button>
-      <button class="button four-column" @click="chup"><font-awesome-icon icon="sort-up" fixed-width /></button>
+      <button class="button four-column ch-btn" @click="chup"><font-awesome-icon icon="chevron-up" fixed-width /></button>
     
       <button class="button four-column" @click="button('voldown')"><font-awesome-icon icon="volume-down"  fixed-width/></button>
       <button class="button four-column blank"></button>
       <button class="button four-column blank"></button>      
-      <button class="button four-column" @click="chdown"><font-awesome-icon icon="sort-down"  fixed-width/></button>
+      <button class="button four-column ch-btn" @click="chdown"><font-awesome-icon icon="chevron-down" fixed-width /></button>
     </div>    
 
     <div class="button-group cols-3">
@@ -287,6 +287,10 @@ export default {
   .pwr.pwr-on {
     color: #0099CC;
     text-shadow: 1px 1px black;
+  }
+
+  .button.ch-btn {
+    font-size: 1.35em;
   }
 
   @media only screen and (max-width: 767px) {
