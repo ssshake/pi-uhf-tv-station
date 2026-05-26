@@ -8,6 +8,7 @@
 
     <div class="now-playing">{{ lcdDisplay }}</div>
 
+    <div class="remote-controls">
     <div class="button-group cols-4">
 
       <button class="button four-column" @click="button('prev')"><font-awesome-icon icon="fast-backward"  fixed-width/></button>
@@ -40,8 +41,9 @@
       <button class="button num three-column" @click="num(0)">0</button>
       <button class="button num three-column" @click="nowPlaying"><font-awesome-icon icon="retweet" fixed-width /></button>
     </div>
-    <div class="button-group cols-3">
+    <div class="button-group cols-3 footer">
       <button class="button num three-column" @click="button('shuffle')"><font-awesome-icon icon="question"  fixed-width/></button>
+    </div>
     </div>
 
   </div>
@@ -285,25 +287,73 @@ export default {
       box-sizing: border-box;
       padding-top: env(safe-area-inset-top, 0);
       padding-bottom: env(safe-area-inset-bottom, 0);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .button-invisible-group,
+    .now-playing {
+      flex-shrink: 0;
+    }
+
+    .now-playing {
+      margin: 8px 12px;
+      min-height: 0;
+      max-height: 10vh;
+    }
+
+    .remote-controls {
+      --btn-gap: 8px;
+      --btn-h: clamp(38px, 6.8vh, 50px);
+      flex: 1 1 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--btn-gap);
+      padding: 0 12px 8px;
+      overflow: hidden;
+    }
+
+    .button-group {
+      flex: 0 0 auto;
+      margin: 0;
+      padding: 6px;
     }
 
     .button-group.cols-4 {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 6px;
+      grid-template-rows: repeat(3, var(--btn-h));
+      gap: var(--btn-gap);
     }
 
     .button-group.cols-3 {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 6px;
+      gap: var(--btn-gap);
+    }
+
+    .button-group.cols-3:not(.footer) {
+      grid-template-rows: repeat(4, var(--btn-h));
+    }
+
+    .button-group.footer {
+      grid-template-rows: var(--btn-h);
     }
 
     .button-group.cols-4 .button,
     .button-group.cols-3 .button {
       width: 100%;
+      height: var(--btn-h);
+      max-height: var(--btn-h);
+      min-height: 0;
       margin: 0;
       min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .num {
@@ -312,11 +362,15 @@ export default {
 
     .blank {
       width: 100%;
-      height: auto;
+      height: var(--btn-h);
     }
   }
 
   @media only screen and (min-width: 768px) {
+    .remote-controls {
+      display: block;
+    }
+
     .button {
       margin: 8px 10px;
       font-size: 24pt;
