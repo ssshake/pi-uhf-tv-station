@@ -207,10 +207,10 @@ export default {
     /* Original silver remote gradient (desktop + mobile light) */
     --remote-bg: linear-gradient(
       280deg,
-      rgba(201, 201, 201, 1) 32%,
+      rgb(180, 180, 180) 28%,
       rgba(255, 255, 255, 1) 49%,
-      rgba(255, 255, 255, 1) 55%,
-      rgba(212, 212, 212, 1) 71%
+      rgb(224, 224, 224) 55%,
+      rgb(185, 185, 185) 71%
     );
     --theme-accent: #676f96;
   }
@@ -281,7 +281,14 @@ export default {
 
   .button-group{
     background: rgb(111,111,111);
-    background: radial-gradient(circle, rgba(111,111,111,1) 0%, rgba(0,0,0,1) 100%);
+    background: 
+    linear-gradient(
+      280deg,
+      rgb(31, 31, 31) 32%,
+      rgb(85, 85, 85) 49%,
+      rgb(53, 53, 53) 55%,
+      rgb(24, 24, 24) 71%
+    );
     border-radius: 5px;
     margin: 20px 15px;
     padding: 14px;
