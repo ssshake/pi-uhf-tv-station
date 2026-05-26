@@ -38,17 +38,15 @@ html {
 
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  justify-content: stretch;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
 }
 
 @media only screen and (min-width: 768px) {
   #app {
     height: 100%;
     min-height: 100vh;
-    padding: 15px;
-    align-items: center;
-    justify-content: center;
   }
 }
 

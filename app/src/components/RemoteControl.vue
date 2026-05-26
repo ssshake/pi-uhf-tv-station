@@ -180,6 +180,7 @@ export default {
     color:rgb(143, 143, 143);
     color:#909fa277;
     margin-left: 15px;
+    font-size: 17pt;
   }
 
   .blank {
@@ -195,62 +196,51 @@ export default {
     border-radius: 5px;
     box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.75), 1px 1px 2px 0px rgba(255,255,255,0.2), -1px -2px 2px 0px rgba(0,0,0,0.3);
     width: 100%;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+    max-width: 500px;
+    padding-top: 10px;
+    padding-bottom: 180px;
   }
 
   .now-playing{
     color: #0099CC;
     text-shadow: 1px 1px black;
     padding: 10px;
-    font-size: 13pt;
+    font-size: 20pt;
     overflow: hidden;
     font-family: 'test';
     background-color: black;
     margin: 15px;
     border-radius: 3px;
-    min-height: 68px;
-    max-height: 68px;
+    min-height: 96px;
+    max-height: 120px;
     line-height: 2rem;
-    flex-shrink: 0;
   }
 
   .button-group{
     background: rgb(111,111,111);
     background: radial-gradient(circle, rgba(111,111,111,1) 0%, rgba(0,0,0,1) 100%);
     border-radius: 5px;
-    margin: 12px 15px;
+    margin: 20px 15px;
     padding: 14px;
-    flex: 1 1 0;
-    min-height: 0;
     box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.75), 1px 1px 2px 0px rgba(255,255,255,0.2), -1px -2px 2px 0px rgba(0,0,0,0.3);
   }
 
+  .button-group.cols-4,
+  .button-group.cols-3 {
+    display: grid;
+    gap: 8px;
+  }
+
   .button-group.cols-4 {
-    display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 8px;
   }
 
-  .button-group.cols-3:not(.button-group--footer) {
-    display: grid;
+  .button-group.cols-3 {
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    gap: 8px;
-  }
-
-  .button-group.button-group--footer.cols-3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
   }
 
   .button-group--footer {
-    flex: 0 0 auto;
-    margin-bottom: max(12px, env(safe-area-inset-bottom));
+    margin-bottom: max(20px, env(safe-area-inset-bottom));
   }
 
   .button-invisible-group {
@@ -260,7 +250,10 @@ export default {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    flex-shrink: 0;
+  }
+
+  .pwr {
+    padding: 10px 25px !important;
   }
 
   .button-label{
@@ -282,24 +275,15 @@ export default {
     cursor:pointer;
     color:#ffffff;
     font-family:Arial;
-    font-size:18px;
+    font-size: 24pt;
     font-weight:bold;
     padding: 4px 8px;
     text-decoration:none;
     text-shadow:0px -1px 0px #353535;
     margin: 0;
     width: 100%;
-    min-height: 44px;
-  }
-
-  .button-group.cols-4 .button {
-    min-height: 0;
-    height: 100%;
-  }
-
-  .button-group.cols-3 .button {
-    min-height: 0;
-    height: 100%;
+    min-height: 60px;
+    height: auto;
   }
 
   .button:active {
@@ -310,39 +294,6 @@ export default {
   @media only screen and (min-width: 768px) {
     .remote {
       width: 500px;
-      min-height: auto;
-      flex: none;
-      padding-top: 10px;
-      padding-bottom: 180px;
-    }
-
-    .button-group {
-      flex: none;
-      margin: 20px 15px;
-    }
-
-    .button-group.cols-4 .button,
-    .button-group.cols-3 .button {
-      min-height: 60px;
-      height: auto;
-    }
-
-    .button {
-      font-size: 24pt;
-    }
-
-    .now-playing{
-      font-size: 20pt;
-      min-height: 96px;
-      max-height: 120px;
-    }
-
-    .logo {
-      font-size: 17pt;
-    }
-
-    .pwr {
-      padding: 10px 25px !important;
     }
   }
 
