@@ -236,6 +236,7 @@ export default {
 
   .num {
     width: 70px;
+    font-size: 1.75rem !important;
   }
 
   .blank {

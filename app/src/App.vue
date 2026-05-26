@@ -57,7 +57,13 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background: #c9c9c9;
+    background:linear-gradient(
+      280deg,
+      rgba(201, 201, 201, 1) 32%,
+      rgba(255, 255, 255, 1) 49%,
+      rgba(255, 255, 255, 1) 55%,
+      rgba(212, 212, 212, 1) 71%
+    );
   }
 
   html[data-theme='dark'],
@@ -76,7 +82,7 @@ body {
     margin: 0;
     overflow: hidden;
     display: block;
-    background: #c9c9c9;
+    background:rgb(253, 0, 211);
   }
 
   html[data-theme='dark'] #app {
