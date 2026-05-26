@@ -321,6 +321,7 @@ export default {
       --btn-gap: 8px;
       --section-gap: clamp(10px, 2vh, 18px);
       --btn-h: clamp(38px, 6.8vh, 50px);
+      --numpad-btn-h: clamp(44px, 7.8vh, 58px);
       flex: 1 1 0;
       min-height: 0;
       display: flex;
@@ -358,7 +359,12 @@ export default {
     }
 
     .button-group.cols-3:not(.footer) {
-      grid-template-rows: repeat(4, var(--btn-h));
+      grid-template-rows: repeat(4, var(--numpad-btn-h));
+    }
+
+    .button-group.cols-3:not(.footer) .button {
+      height: var(--numpad-btn-h);
+      max-height: var(--numpad-btn-h);
     }
 
     .button-group.footer {
