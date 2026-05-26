@@ -12,11 +12,13 @@
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/vue-fontawesome": "^0.1.10",
     "core-js": "^3.6.5",
+    "register-service-worker": "^1.7.2",
     "vue": "^2.6.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",
     "@vue/cli-plugin-eslint": "~4.4.0",
+    "@vue/cli-plugin-pwa": "~4.5.19",
     "@vue/cli-service": "~4.4.0",
     "babel-eslint": "^10.1.0",
     "electron": "^9.1.2",

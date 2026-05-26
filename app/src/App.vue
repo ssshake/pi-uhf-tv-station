@@ -16,10 +16,6 @@ export default {
 </script>
 
 <style>
-html {
-  height: 100%;
-}
-
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -28,34 +24,24 @@ html {
   color: white;
   background: rgb(103,111,150);
   background: radial-gradient(circle, rgba(103,111,150,1) 0%, rgba(24,25,28,1) 100%);
-  min-height: 100dvh;
-  width: 100%;
-  padding: 0;
-  padding-bottom: env(safe-area-inset-bottom);
-  overflow-x: hidden;
+  padding: 15px;
 
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
-  overflow-y: auto;
+  align-items: center;
+  justify-content: center;
 }
 
 @media only screen and (min-width: 768px) {
   #app {
-    height: 100%;
-    min-height: 100vh;
-    padding: 15px;
-    align-items: center;
-    justify-content: center;
-    overflow-y: visible;
+    height:100%;
   }
+
 }
 
 body{
   width: 100%;
-  min-height: 100dvh;
-  height: 100%;
+  height: 100vh;
   padding: 0;
   margin: 0;
 }

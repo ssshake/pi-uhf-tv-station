@@ -8,40 +8,40 @@
 
     <div class="now-playing">{{ lcdDisplay }}</div>
 
-    <div class="button-group cols-4">
+    <div class="button-group">
 
-      <button class="button" @click="button('prev')"><font-awesome-icon icon="fast-backward"  fixed-width/></button>
-      <button class="button" @click="button('rr')"><font-awesome-icon icon="backward" fixed-width /></button>
-      <button class="button" @click="button('ff')"><font-awesome-icon icon="forward"  fixed-width/></button>
-      <button class="button" @click="button('next')"><font-awesome-icon icon="fast-forward"  fixed-width/></button>
+      <button class="button four-column" @click="button('prev')"><font-awesome-icon icon="fast-backward"  fixed-width/></button>
+      <button class="button four-column" @click="button('rr')"><font-awesome-icon icon="backward" fixed-width /></button>
+      <button class="button four-column" @click="button('ff')"><font-awesome-icon icon="forward"  fixed-width/></button>
+      <button class="button four-column" @click="button('next')"><font-awesome-icon icon="fast-forward"  fixed-width/></button>
 
-      <button class="button" @click="button('volup')"><font-awesome-icon icon="volume-up"  fixed-width/></button>
-      <button class="button" @click="button('pause')"><font-awesome-icon icon="pause"  fixed-width/></button>
-      <button class="button" @click="button('play')"><font-awesome-icon icon="play"  fixed-width/></button>
-      <button class="button" @click="chup"><font-awesome-icon icon="sort-up" fixed-width /></button>
+      <button class="button four-column" @click="button('volup')"><font-awesome-icon icon="volume-up"  fixed-width/></button>  
+      <button class="button four-column" @click="button('pause')"><font-awesome-icon icon="pause"  fixed-width/></button>
+      <button class="button four-column" @click="button('play')"><font-awesome-icon icon="play"  fixed-width/></button>
+      <button class="button four-column" @click="chup"><font-awesome-icon icon="sort-up" fixed-width /></button>
+    
+      <button class="button four-column" @click="button('voldown')"><font-awesome-icon icon="volume-down"  fixed-width/></button>
+      <button class="button four-column blank"></button>
+      <button class="button four-column blank"></button>      
+      <button class="button four-column" @click="chdown"><font-awesome-icon icon="sort-down"  fixed-width/></button>
+    </div>    
 
-      <button class="button" @click="button('voldown')"><font-awesome-icon icon="volume-down"  fixed-width/></button>
-      <button class="button blank" aria-hidden="true" tabindex="-1"></button>
-      <button class="button blank" aria-hidden="true" tabindex="-1"></button>
-      <button class="button" @click="chdown"><font-awesome-icon icon="sort-down"  fixed-width/></button>
+    <div class="button-group">
+      <button class="button num three-column" @click="num(7)">7</button>
+      <button class="button num three-column" @click="num(8)">8</button>
+      <button class="button num three-column" @click="num(9)">9</button>
+      <button class="button num three-column" @click="num(4)">4</button>
+      <button class="button num three-column" @click="num(5)">5</button>
+      <button class="button num three-column" @click="num(6)">6</button>
+      <button class="button num three-column" @click="num(1)">1</button>
+      <button class="button num three-column" @click="num(2)">2</button>
+      <button class="button num three-column" @click="num(3)">3</button>
+      <button class="button num three-column" @click="button('stop')"><font-awesome-icon icon="eject"  fixed-width/></button>
+      <button class="button num three-column" @click="num(0)">0</button>
+      <button class="button num three-column" @click="nowPlaying"><font-awesome-icon icon="retweet" fixed-width /></button>
     </div>
-
-    <div class="button-group cols-3">
-      <button class="button num" @click="num(7)">7</button>
-      <button class="button num" @click="num(8)">8</button>
-      <button class="button num" @click="num(9)">9</button>
-      <button class="button num" @click="num(4)">4</button>
-      <button class="button num" @click="num(5)">5</button>
-      <button class="button num" @click="num(6)">6</button>
-      <button class="button num" @click="num(1)">1</button>
-      <button class="button num" @click="num(2)">2</button>
-      <button class="button num" @click="num(3)">3</button>
-      <button class="button num" @click="button('stop')"><font-awesome-icon icon="eject"  fixed-width/></button>
-      <button class="button num" @click="num(0)">0</button>
-      <button class="button num" @click="nowPlaying"><font-awesome-icon icon="retweet" fixed-width /></button>
-    </div>
-    <div class="button-group cols-3 button-group--footer">
-      <button class="button num" @click="button('shuffle')"><font-awesome-icon icon="question"  fixed-width/></button>
+    <div class="button-group">
+      <button class="button num three-column" @click="button('shuffle')"><font-awesome-icon icon="question"  fixed-width/></button>
     </div>
 
   </div>
@@ -175,46 +175,51 @@ export default {
     font-style: normal;
   }
 
-  .logo {
+  .logo{
     font-family: sega;
-    color: #909fa277;
+    color:rgb(143, 143, 143);
+    color:#909fa277;
     margin-left: 15px;
-    font-size: 17pt;
-    flex: 1;
-    min-width: 0;
+  }
+
+  .num {
+    width: 70px;
   }
 
   .blank {
+    width: 50px;
+    height: 30px;
     visibility: hidden;
-    pointer-events: none;
+  }
+
+  .hidden {
+    visibility: nohiddenne;
   }
 
   .remote {
     background: rgb(201,201,201);
     background: linear-gradient(280deg, rgba(201,201,201,1) 32%, rgba(255,255,255,1) 49%, rgba(255,255,255,1) 55%, rgba(212,212,212,1) 71%);
+    /* background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(172,175,181,1) 100%); */
     background-size: cover;
     box-sizing: border-box;
     border-radius: 5px;
     box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.75), 1px 1px 2px 0px rgba(255,255,255,0.2), -1px -2px 2px 0px rgba(0,0,0,0.3);
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    padding-top: 10px;
-    padding-bottom: 180px;
   }
 
   .now-playing{
-    color: #0099CC;
+    color: white;
     text-shadow: 1px 1px black;
     padding: 10px;
-    font-size: 20pt;
+    font-size: 13pt;
     overflow: hidden;
     font-family: 'test';
+    color: #0099CC;
     background-color: black;
     margin: 15px;
     border-radius: 3px;
-    min-height: 96px;
-    max-height: 120px;
+    min-height: 68px;
+    max-height: 68px;
     line-height: 2rem;
   }
 
@@ -224,39 +229,21 @@ export default {
     border-radius: 5px;
     margin: 20px 15px;
     padding: 14px;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
     box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.75), 1px 1px 2px 0px rgba(255,255,255,0.2), -1px -2px 2px 0px rgba(0,0,0,0.3);
-  }
-
-  .button-group.cols-4,
-  .button-group.cols-3 {
-    display: grid;
-    gap: 8px;
-  }
-
-  .button-group.cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .button-group.cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .button-group--footer {
-    margin-bottom: max(20px, env(safe-area-inset-bottom));
   }
 
   .button-invisible-group {
     margin: 5px 5px 2px 5px;
     padding: 10px 16px 2px 5px;
-    display: flex;
+    display:flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-  }
-
-  .pwr {
-    padding: 10px 25px !important;
-    flex-shrink: 0;
+    /* flex-direction: row-reverse; */
   }
 
   .button-label{
@@ -266,34 +253,22 @@ export default {
   }
 
   .button {
-    position: relative;
+    position: relative; 
     box-shadow:inset 0px 1px 3px 0px #0c0c0c;
     background:linear-gradient(to bottom, #525554 5%, #575858 100%);
     background-color:#474948;
     border-radius:2px;
     border:1px solid #353535;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display:inline-block;
     cursor:pointer;
     color:#ffffff;
     font-family:Arial;
-    font-size: 24pt;
+    font-size:18px;
     font-weight:bold;
-    padding: 4px 6px;
+    padding:4px 12px;
     text-decoration:none;
     text-shadow:0px -1px 0px #353535;
-    margin: 0;
-    width: 100%;
-    min-width: 0;
-    min-height: 60px;
-    height: auto;
-    overflow: visible;
-  }
-
-  .button svg {
-    max-width: 100%;
-    flex-shrink: 0;
+    margin: 4px 0px;
   }
 
   .button:active {
@@ -301,34 +276,45 @@ export default {
     top:1px;
   }
 
-  @media only screen and (max-width: 767px) {
-    .remote {
-      max-width: none;
-      border-radius: 0;
-      box-shadow: none;
-      padding-top: max(10px, env(safe-area-inset-top));
-    }
-
-    .button-invisible-group {
-      padding-right: max(16px, env(safe-area-inset-right));
-      padding-left: max(5px, env(safe-area-inset-left));
-    }
-
-    .now-playing {
-      margin-left: max(15px, env(safe-area-inset-left));
-      margin-right: max(15px, env(safe-area-inset-right));
-    }
-
-    .button-group {
-      margin-left: max(15px, env(safe-area-inset-left));
-      margin-right: max(15px, env(safe-area-inset-right));
-    }
-  }
-
   @media only screen and (min-width: 768px) {
+    .button {
+      margin: 8px 10px;
+      font-size: 24pt;
+    }
+
+    .four-column {
+      flex-grow: 1;
+      width: calc( 100% * (1/4) - 20px);
+      height: 60px;
+    }
+
+    .three-column {
+      flex-grow: 1;
+      width: calc( 100% * (1/3) - 20px);
+      height: 60px;
+    }
+
     .remote {
       width: 500px;
+      /* height: 100%; */
+      padding-top: 10px;
+      padding-bottom: 180px;
     }
+
+    .now-playing{
+      font-size: 20pt;
+      min-height: 96px;
+      max-height: 120px;
+    }
+
+    .logo {
+      font-size: 17pt;
+    }
+
+    .pwr {
+      padding: 10px 25px !important;
+    }
+
   }
 
 </style>

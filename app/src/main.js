@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import './registerServiceWorker'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faQuestion, faBackward, faFastBackward, faForward, faFastForward, faPlay, faPause, faStop, faEject, 
