@@ -3,7 +3,7 @@
 
     <div class="button-invisible-group">
       <div class="logo">Pi TV Tuner</div>
-      <button class="button pwr" @click="powerButton"><font-awesome-icon icon="power-off" fixed-width/></button>
+      <button type="button" class="button pwr" :class="{ 'pwr-on': powerState }" @click="powerButton"><font-awesome-icon icon="power-off" fixed-width/></button>
     </div>
 
     <div class="now-playing">{{ lcdDisplay }}</div>
@@ -219,9 +219,11 @@ export default {
     background-color: black;
     margin: 15px;
     border-radius: 3px;
-    min-height: 68px;
-    max-height: 72px;
     line-height: 1.3;
+    box-sizing: border-box;
+    height: calc(3 * 1.3em + 20px);
+    min-height: calc(3 * 1.3em + 20px);
+    max-height: calc(3 * 1.3em + 20px);
   }
 
   .button-group{
@@ -277,6 +279,16 @@ export default {
     top:1px;
   }
 
+  .pwr {
+    padding: 6px 18px !important;
+    font-size: 27px;
+  }
+
+  .pwr.pwr-on {
+    color: #0099CC;
+    text-shadow: 1px 1px black;
+  }
+
   @media only screen and (max-width: 767px) {
     .remote {
       width: 100%;
@@ -302,10 +314,7 @@ export default {
 
     .now-playing {
       margin: 8px 12px;
-      min-height: 0;
-      max-height: 10vh;
       font-size: clamp(12px, 2.8vh, 15pt);
-      line-height: 1.25;
     }
 
     .remote-controls {
@@ -410,9 +419,6 @@ export default {
 
     .now-playing{
       font-size: 20pt;
-      min-height: 96px;
-      max-height: 120px;
-      line-height: 1.3;
     }
 
     .logo {
@@ -420,7 +426,8 @@ export default {
     }
 
     .pwr {
-      padding: 10px 25px !important;
+      padding: 15px 38px !important;
+      font-size: 36pt;
     }
 
   }
