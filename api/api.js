@@ -14,6 +14,7 @@ const port = process.env.PORT || 3000;
 const config = require('./config.json');
 
 console.log('cwd:', process.cwd())
+console.log(process.env)
 
 const debounceDelay = 2000;
 const shuffleDelay = 60000;
