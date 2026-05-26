@@ -175,12 +175,13 @@ export default {
     font-style: normal;
   }
 
-  .logo{
+  .logo {
     font-family: sega;
-    color:rgb(143, 143, 143);
-    color:#909fa277;
+    color: #909fa277;
     margin-left: 15px;
     font-size: 17pt;
+    flex: 1;
+    min-width: 0;
   }
 
   .blank {
@@ -197,6 +198,7 @@ export default {
     box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.75), 1px 1px 2px 0px rgba(255,255,255,0.2), -1px -2px 2px 0px rgba(0,0,0,0.3);
     width: 100%;
     max-width: 500px;
+    margin: 0 auto;
     padding-top: 10px;
     padding-bottom: 180px;
   }
@@ -232,11 +234,11 @@ export default {
   }
 
   .button-group.cols-4 {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .button-group.cols-3 {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .button-group--footer {
@@ -254,6 +256,7 @@ export default {
 
   .pwr {
     padding: 10px 25px !important;
+    flex-shrink: 0;
   }
 
   .button-label{
@@ -277,18 +280,49 @@ export default {
     font-family:Arial;
     font-size: 24pt;
     font-weight:bold;
-    padding: 4px 8px;
+    padding: 4px 6px;
     text-decoration:none;
     text-shadow:0px -1px 0px #353535;
     margin: 0;
     width: 100%;
+    min-width: 0;
     min-height: 60px;
     height: auto;
+    overflow: visible;
+  }
+
+  .button svg {
+    max-width: 100%;
+    flex-shrink: 0;
   }
 
   .button:active {
     position:relative;
     top:1px;
+  }
+
+  @media only screen and (max-width: 767px) {
+    .remote {
+      max-width: none;
+      border-radius: 0;
+      box-shadow: none;
+      padding-top: max(10px, env(safe-area-inset-top));
+    }
+
+    .button-invisible-group {
+      padding-right: max(16px, env(safe-area-inset-right));
+      padding-left: max(5px, env(safe-area-inset-left));
+    }
+
+    .now-playing {
+      margin-left: max(15px, env(safe-area-inset-left));
+      margin-right: max(15px, env(safe-area-inset-right));
+    }
+
+    .button-group {
+      margin-left: max(15px, env(safe-area-inset-left));
+      margin-right: max(15px, env(safe-area-inset-right));
+    }
   }
 
   @media only screen and (min-width: 768px) {

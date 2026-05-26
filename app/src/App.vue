@@ -31,22 +31,24 @@ html {
   min-height: 100dvh;
   width: 100%;
   padding: 0;
-  padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
+  overflow-x: hidden;
 
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
+  align-items: stretch;
+  justify-content: flex-start;
+  overflow-y: auto;
 }
 
 @media only screen and (min-width: 768px) {
   #app {
     height: 100%;
     min-height: 100vh;
+    padding: 15px;
+    align-items: center;
+    justify-content: center;
+    overflow-y: visible;
   }
 }
 
