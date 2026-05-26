@@ -342,7 +342,7 @@ export default {
     .button-group {
       flex: 0 0 auto;
       margin: 0;
-      padding: 6px;
+      padding: 14px;
     }
 
     .button-group.cols-4 {
