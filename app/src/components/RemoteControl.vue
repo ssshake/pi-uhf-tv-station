@@ -8,7 +8,7 @@
 
     <div class="now-playing">{{ lcdDisplay }}</div>
 
-    <div class="button-group">
+    <div class="button-group cols-4">
 
       <button class="button four-column" @click="button('prev')"><font-awesome-icon icon="fast-backward"  fixed-width/></button>
       <button class="button four-column" @click="button('rr')"><font-awesome-icon icon="backward" fixed-width /></button>
@@ -26,7 +26,7 @@
       <button class="button four-column" @click="chdown"><font-awesome-icon icon="sort-down"  fixed-width/></button>
     </div>    
 
-    <div class="button-group">
+    <div class="button-group cols-3">
       <button class="button num three-column" @click="num(7)">7</button>
       <button class="button num three-column" @click="num(8)">8</button>
       <button class="button num three-column" @click="num(9)">9</button>
@@ -40,7 +40,7 @@
       <button class="button num three-column" @click="num(0)">0</button>
       <button class="button num three-column" @click="nowPlaying"><font-awesome-icon icon="retweet" fixed-width /></button>
     </div>
-    <div class="button-group">
+    <div class="button-group cols-3">
       <button class="button num three-column" @click="button('shuffle')"><font-awesome-icon icon="question"  fixed-width/></button>
     </div>
 
@@ -274,6 +274,46 @@ export default {
   .button:active {
     position:relative;
     top:1px;
+  }
+
+  @media only screen and (max-width: 767px) {
+    .remote {
+      width: 100%;
+      height: 100%;
+      min-height: 100dvh;
+      border-radius: 0;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0);
+      padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+
+    .button-group.cols-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .button-group.cols-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .button-group.cols-4 .button,
+    .button-group.cols-3 .button {
+      width: 100%;
+      margin: 0;
+      min-width: 0;
+    }
+
+    .num {
+      width: auto;
+    }
+
+    .blank {
+      width: 100%;
+      height: auto;
+    }
   }
 
   @media only screen and (min-width: 768px) {

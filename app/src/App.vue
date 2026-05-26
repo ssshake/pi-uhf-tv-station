@@ -39,11 +39,38 @@ export default {
 
 }
 
-body{
+html {
+  height: 100%;
+}
+
+body {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   padding: 0;
   margin: 0;
+}
+
+/* Mobile: fill the screen */
+@media only screen and (max-width: 767px) {
+  html,
+  body,
+  #app {
+    height: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+
+  #app {
+    padding: 0;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  #app > * {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+  }
 }
 
 *{
