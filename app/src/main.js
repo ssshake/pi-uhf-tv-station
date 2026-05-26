@@ -4,7 +4,7 @@ import './registerServiceWorker'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faQuestion, faBackward, faFastBackward, faForward, faFastForward, faPlay, faPause, faStop, faEject, 
-  faPowerOff, faVolumeUp, faVolumeDown, faVolumeMute, faChevronUp, faChevronDown, faCircle, faRetweet } from '@fortawesome/free-solid-svg-icons'
+  faPowerOff, faVolumeUp, faVolumeDown, faVolumeMute, faChevronUp, faChevronDown, faCircle, faRetweet, faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(faBackward)
@@ -25,6 +25,8 @@ library.add(faChevronDown)
 library.add(faCircle)
 library.add(faRetweet)
 library.add(faQuestion)
+library.add(faMoon)
+library.add(faSun)
 
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)

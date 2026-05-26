@@ -50,34 +50,37 @@ body {
   margin: 0;
 }
 
-/* Mobile: fill the screen */
+/* Mobile: #app pins to viewport edges (do not set height: 100dvh — it is often shorter than the screen on iOS PWA and leaves a gap at the bottom). */
 @media only screen and (max-width: 767px) {
   html,
   body {
-    background: #d4d4d4;
-  }
-
-  html,
-  body,
-  #app {
-    height: 100%;
-    height: 100dvh;
-    min-height: 100dvh;
-    max-height: 100dvh;
-    overflow: hidden;
-  }
-
-  #app {
+    margin: 0;
     padding: 0;
-    align-items: stretch;
-    justify-content: stretch;
-    background: #d4d4d4;
+    overflow: hidden;
+    background: #c9c9c9;
   }
 
-  #app > * {
-    flex: 1;
+  html[data-theme='dark'],
+  html[data-theme='dark'] body {
+    background: #1a1e24;
+  }
+
+  #app {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100%;
-    min-height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    display: block;
+    background: #c9c9c9;
+  }
+
+  html[data-theme='dark'] #app {
+    background: #1a1e24;
   }
 }
 

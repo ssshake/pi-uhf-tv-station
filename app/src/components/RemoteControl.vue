@@ -1,5 +1,5 @@
 <template>
-  <div class="remote">
+  <div class="remote" :class="{ 'theme-dark': darkMode }">
 
     <div class="button-invisible-group">
       <div class="logo">Pi TV Tuner</div>
@@ -42,11 +42,13 @@
       <button class="button num three-column" @click="nowPlaying"><font-awesome-icon icon="retweet" fixed-width /></button>
     </div>
     <div class="button-group cols-3 footer">
-      <button class="button num three-column" @click="button('shuffle')"><font-awesome-icon icon="question"  fixed-width/></button>
+      <button type="button" class="button" @click="button('shuffle')"><font-awesome-icon icon="question" fixed-width/></button>
+      <span class="button blank" aria-hidden="true"></span>
+      <button type="button" class="button theme-btn" :class="{ 'theme-btn--dark': darkMode }" @click="toggleTheme" :aria-label="darkMode ? 'Light mode' : 'Dark mode'">
+        <font-awesome-icon :icon="darkMode ? 'sun' : 'moon'" fixed-width />
+      </button>
     </div>
     </div>
-
-    <div class="remote-tail" aria-hidden="true"></div>
 
   </div>
 </template>
@@ -65,6 +67,7 @@ export default {
       number: '',
       numberDebounce: undefined,
       channelUpdateDebounce: undefined,
+      darkMode: false,
     };
   },
   computed: {
@@ -154,9 +157,28 @@ export default {
         console.log("Clear Number")
         this.number="";
       }, 1000)
-    },                                             
+    },
+    toggleTheme() {
+      this.darkMode = !this.darkMode;
+      this.applyTheme();
+    },
+    applyTheme() {
+      const theme = this.darkMode ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      try {
+        localStorage.setItem('pi-tv-theme', theme);
+      } catch (e) {
+        /* private mode */
+      }
+    },
   },
   mounted(){
+    try {
+      this.darkMode = localStorage.getItem('pi-tv-theme') === 'dark';
+    } catch (e) {
+      this.darkMode = false;
+    }
+    this.applyTheme();
     this.nowPlaying();
   }
 }
@@ -179,9 +201,35 @@ export default {
     font-style: normal;
   }
 
+  .remote {
+    --logo-color: #4a5058;
+    --lcd-color: #0099CC;
+    /* Original silver remote gradient (desktop + mobile light) */
+    --remote-bg: linear-gradient(
+      280deg,
+      rgba(201, 201, 201, 1) 32%,
+      rgba(255, 255, 255, 1) 49%,
+      rgba(255, 255, 255, 1) 55%,
+      rgba(212, 212, 212, 1) 71%
+    );
+    --theme-accent: #676f96;
+  }
+
+  .remote.theme-dark {
+    --logo-color: #a8b0bc;
+    --remote-bg: linear-gradient(
+      280deg,
+      #3d434d 0%,
+      #525a68 38%,
+      #2c3139 55%,
+      #1a1e24 71%
+    );
+    --theme-accent: #8b9dc3;
+  }
+
   .logo{
     font-family: sega;
-    color: #4a5058;
+    color: var(--logo-color);
     margin-left: 15px;
     font-size: clamp(14px, 3vh, 17pt);
   }
@@ -201,18 +249,20 @@ export default {
   }
 
   .remote {
-    background: rgb(201,201,201);
-    background: linear-gradient(280deg, rgba(201,201,201,1) 32%, rgba(255,255,255,1) 49%, rgba(255,255,255,1) 55%, rgba(212,212,212,1) 71%);
-    /* background: rgb(255,255,255);
-    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(172,175,181,1) 100%); */
+    background: rgb(201, 201, 201);
+    background: var(--remote-bg);
     background-size: cover;
     box-sizing: border-box;
     border-radius: 5px;
     box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.75), 1px 1px 2px 0px rgba(255,255,255,0.2), -1px -2px 2px 0px rgba(0,0,0,0.3);
   }
 
+  .remote.theme-dark {
+    box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, 0.9), 1px 1px 2px 0 rgba(255, 255, 255, 0.06), -1px -2px 2px 0 rgba(0, 0, 0, 0.5);
+  }
+
   .now-playing{
-    color: #0099CC;
+    color: var(--lcd-color);
     text-shadow: 1px 1px black;
     padding: 10px;
     font-size: clamp(12px, 2.6vh, 14pt);
@@ -239,6 +289,18 @@ export default {
     justify-content: space-between;
     align-items: center;
     box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.75), 1px 1px 2px 0px rgba(255,255,255,0.2), -1px -2px 2px 0px rgba(0,0,0,0.3);
+  }
+
+  .button-group.footer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .button-group.footer .button,
+  .button-group.footer .blank {
+    width: 100%;
+    margin: 0;
   }
 
   .button-invisible-group {
@@ -287,7 +349,7 @@ export default {
   }
 
   .pwr.pwr-on {
-    color: #0099CC;
+    color: var(--lcd-color);
     text-shadow: 1px 1px black;
   }
 
@@ -295,20 +357,18 @@ export default {
     font-size: 1.35em;
   }
 
-  .remote-tail {
-    display: none;
+  .theme-btn--dark {
+    color: var(--theme-accent);
   }
 
   @media only screen and (max-width: 767px) {
     .remote {
-      position: fixed;
+      position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
       width: 100%;
-      height: 100%;
-      height: 100dvh;
       border-radius: 0;
       box-shadow: none;
       box-sizing: border-box;
@@ -317,21 +377,10 @@ export default {
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      /* No pure-white band in the diagonal desktop gradient */
-      background: linear-gradient(
-        180deg,
-        #c9c9c9 0%,
-        #e8e8e8 28%,
-        #d4d4d4 45%,
-        #d4d4d4 100%
-      );
-    }
-
-    .remote-tail {
-      display: block;
-      flex: 1 1 0;
-      min-height: 0;
-      background: #d4d4d4;
+      background: rgb(201, 201, 201);
+      background: var(--remote-bg);
+      background-size: cover;
+      background-position: center top;
     }
 
     .button-invisible-group,
@@ -411,7 +460,7 @@ export default {
 
     .blank {
       width: 100%;
-      height: 100%;
+      height: var(--btn-h);
     }
   }
 
