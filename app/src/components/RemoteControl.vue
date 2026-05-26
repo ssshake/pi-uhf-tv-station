@@ -179,9 +179,9 @@ export default {
 
   .logo{
     font-family: sega;
-    color:rgb(143, 143, 143);
-    color:#909fa277;
+    color: #4a5058;
     margin-left: 15px;
+    font-size: clamp(14px, 3vh, 17pt);
   }
 
   .num {
@@ -210,19 +210,18 @@ export default {
   }
 
   .now-playing{
-    color: white;
+    color: #0099CC;
     text-shadow: 1px 1px black;
     padding: 10px;
-    font-size: 13pt;
+    font-size: clamp(12px, 2.6vh, 14pt);
     overflow: hidden;
     font-family: 'test';
-    color: #0099CC;
     background-color: black;
     margin: 15px;
     border-radius: 3px;
     min-height: 68px;
-    max-height: 68px;
-    line-height: 2rem;
+    max-height: 72px;
+    line-height: 1.3;
   }
 
   .button-group{
@@ -297,10 +296,16 @@ export default {
       flex-shrink: 0;
     }
 
+    .logo {
+      font-size: clamp(15px, 3.2vh, 18pt);
+    }
+
     .now-playing {
       margin: 8px 12px;
       min-height: 0;
       max-height: 10vh;
+      font-size: clamp(12px, 2.8vh, 15pt);
+      line-height: 1.25;
     }
 
     .remote-controls {
@@ -407,6 +412,7 @@ export default {
       font-size: 20pt;
       min-height: 96px;
       max-height: 120px;
+      line-height: 1.3;
     }
 
     .logo {
