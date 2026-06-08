@@ -18,13 +18,11 @@
 			font-family: system-ui, -apple-system, sans-serif;
 			display: flex;
 			flex-direction: column;
-			align-items: center;
 		}
 
 		header {
-			width: 100%;
-			max-width: 960px;
 			padding: 1rem 1.25rem 0.5rem;
+			border-bottom: 1px solid #222;
 		}
 
 		h1 {
@@ -53,23 +51,55 @@
 			color: #888;
 		}
 
-		main {
-			width: 100%;
-			max-width: 960px;
-			padding: 0.75rem 1.25rem 2rem;
+		.layout {
 			flex: 1;
 			display: flex;
+			min-height: 0;
+		}
+
+		.viewer-panel {
+			flex: 1;
+			min-width: 0;
+			display: flex;
 			flex-direction: column;
+			padding: 0.75rem 1.25rem 1.25rem;
+		}
+
+		.remote-panel {
+			width: 420px;
+			flex-shrink: 0;
+			border-left: 1px solid #222;
+			background: #111;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.remote-panel h2 {
+			padding: 0.75rem 1rem;
+			font-size: 0.75rem;
+			font-weight: 600;
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			color: #666;
+			border-bottom: 1px solid #222;
+		}
+
+		.remote-panel iframe {
+			flex: 1;
+			width: 100%;
+			border: 0;
+			background: #0a0a0a;
 		}
 
 		.video-wrap {
 			position: relative;
 			width: 100%;
+			flex: 1;
+			min-height: 0;
 			background: #000;
 			border: 2px solid #222;
 			border-radius: 4px;
 			overflow: hidden;
-			aspect-ratio: 4 / 3;
 		}
 
 		video {
@@ -80,11 +110,22 @@
 			object-fit: contain;
 		}
 
-		.hint {
-			margin-top: 0.75rem;
-			font-size: 0.8rem;
-			color: #666;
-			text-align: center;
+		@media (max-width: 900px) {
+			.layout {
+				flex-direction: column;
+			}
+
+			.remote-panel {
+				width: 100%;
+				height: 520px;
+				border-left: 0;
+				border-top: 1px solid #222;
+			}
+
+			.video-wrap {
+				aspect-ratio: 4 / 3;
+				flex: none;
+			}
 		}
 	</style>
 </head>
@@ -94,11 +135,21 @@
 		<div id="status" class="status">Connecting…</div>
 	</header>
 
-	<main>
-		<div class="video-wrap">
-			<video id="player" controls autoplay muted playsinline></video>
-		</div>
-		<p class="hint">Use the remote app to change channels and control playback.</p>
+	<main class="layout">
+		<section class="viewer-panel">
+			<div class="video-wrap">
+				<video id="player" controls autoplay muted playsinline></video>
+			</div>
+		</section>
+
+		<aside class="remote-panel">
+			<h2>Remote</h2>
+			<iframe
+				src="http://10.0.0.22:8080/"
+				title="Pi TV Remote"
+				allow="autoplay"
+			></iframe>
+		</aside>
 	</main>
 
 	<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js"></script>
