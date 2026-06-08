@@ -11,8 +11,13 @@
 			padding: 0;
 		}
 
+		html, body {
+			height: 100%;
+			overflow: hidden;
+		}
+
 		body {
-			min-height: 100vh;
+			height: 100vh;
 			background: #0a0a0a;
 			color: #e8e8e8;
 			font-family: system-ui, -apple-system, sans-serif;
@@ -21,7 +26,8 @@
 		}
 
 		header {
-			padding: 1rem 1.25rem 0.5rem;
+			flex-shrink: 0;
+			padding: 0.65rem 1.25rem;
 			border-bottom: 1px solid #222;
 		}
 
@@ -55,14 +61,16 @@
 			flex: 1;
 			display: flex;
 			min-height: 0;
+			overflow: hidden;
 		}
 
 		.viewer-panel {
 			flex: 1;
 			min-width: 0;
 			display: flex;
-			flex-direction: column;
-			padding: 0.75rem 1.25rem 1.25rem;
+			align-items: center;
+			justify-content: center;
+			padding: 1rem;
 		}
 
 		.remote-panel {
@@ -70,32 +78,20 @@
 			flex-shrink: 0;
 			border-left: 1px solid #222;
 			background: #111;
-			display: flex;
-			flex-direction: column;
-		}
-
-		.remote-panel h2 {
-			padding: 0.75rem 1rem;
-			font-size: 0.75rem;
-			font-weight: 600;
-			letter-spacing: 0.06em;
-			text-transform: uppercase;
-			color: #666;
-			border-bottom: 1px solid #222;
 		}
 
 		.remote-panel iframe {
-			flex: 1;
+			display: block;
 			width: 100%;
+			height: 100%;
 			border: 0;
 			background: #0a0a0a;
 		}
 
 		.video-wrap {
-			position: relative;
-			width: 100%;
-			flex: 1;
-			min-height: 0;
+			width: min(calc(100vw - 420px - 2rem), calc((100vh - 4.5rem) * 4 / 3));
+			aspect-ratio: 4 / 3;
+			max-height: calc(100vh - 4.5rem);
 			background: #000;
 			border: 2px solid #222;
 			border-radius: 4px;
@@ -115,16 +111,22 @@
 				flex-direction: column;
 			}
 
-			.remote-panel {
-				width: 100%;
-				height: 520px;
-				border-left: 0;
-				border-top: 1px solid #222;
+			.viewer-panel {
+				flex: none;
+				padding: 0.75rem;
 			}
 
 			.video-wrap {
-				aspect-ratio: 4 / 3;
-				flex: none;
+				width: min(100vw - 1.5rem, calc((100vh - 4.5rem - 480px) * 4 / 3));
+				max-height: calc(100vh - 4.5rem - 480px);
+			}
+
+			.remote-panel {
+				width: 100%;
+				flex: 1;
+				min-height: 0;
+				border-left: 0;
+				border-top: 1px solid #222;
 			}
 		}
 	</style>
@@ -143,7 +145,6 @@
 		</section>
 
 		<aside class="remote-panel">
-			<h2>Remote</h2>
 			<iframe
 				src="http://10.0.0.22:8080/"
 				title="Pi TV Remote"
