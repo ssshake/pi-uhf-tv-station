@@ -9,6 +9,8 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 8081;
 const HLS_DIR = path.join(__dirname, 'hls');
+const PUBLIC_DIR = path.join(__dirname, 'public');
+const VIEWER_PATH = path.join(PUBLIC_DIR, 'index.html');
 const PLAYLIST_PATH = path.join(HLS_DIR, 'stream.m3u8');
 
 if (!fs.existsSync(HLS_DIR)) {
@@ -107,7 +109,7 @@ const loadVideo = async (videoPath) => {
 };
 
 app.get('/', (req, res) => {
-	return sendStatus(res, { message: 'Pi TV stream API' });
+	res.sendFile(VIEWER_PATH);
 });
 
 app.get('/status', (req, res) => {
@@ -154,7 +156,7 @@ app.get('/stop', async (req, res) => {
 });
 
 app.listen(port, () => {
-	console.log(`Stream API listening on ${port}`);
+	console.log(`Stream API and viewer at http://localhost:${port}`);
 });
 
 process.on('SIGINT', async () => {
