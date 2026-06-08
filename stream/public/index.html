@@ -49,6 +49,10 @@
 			color: #c44;
 		}
 
+		.status.buffering {
+			color: #888;
+		}
+
 		main {
 			width: 100%;
 			max-width: 960px;
@@ -100,79 +104,152 @@
 	<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js"></script>
 	<script>
 		const apiUrl = `http://${window.location.hostname}:3000`;
-		const hlsUrl = '/hls/stream.m3u8';
 
 		const player = document.getElementById('player');
 		const statusEl = document.getElementById('status');
 		let hls = null;
-		let lastPath = null;
+		let activeSessionId = null;
+		let attaching = false;
 
-		const attachStream = () => {
-			if (Hls.isSupported()) {
-				if (hls) {
-					hls.destroy();
-				}
-				hls = new Hls({
-					liveSyncDurationCount: 3,
-					maxLiveSyncPlaybackRate: 1.5,
-				});
-				hls.loadSource(hlsUrl);
-				hls.attachMedia(player);
-				hls.on(Hls.Events.ERROR, (_, data) => {
-					if (data.fatal) {
-						statusEl.textContent = 'Stream unavailable — waiting for video…';
-						statusEl.className = 'status offline';
+		const setStatus = (text, className = 'status') => {
+			statusEl.textContent = text;
+			statusEl.className = className;
+		};
+
+		const detachStream = () => {
+			if (hls) {
+				hls.destroy();
+				hls = null;
+			}
+			player.removeAttribute('src');
+			player.load();
+		};
+
+		const waitForPlaylist = async (url, attempts = 40) => {
+			for (let i = 0; i < attempts; i++) {
+				try {
+					const response = await fetch(url, { cache: 'no-store' });
+					if (response.ok) {
+						const text = await response.text();
+						if (text.includes('#EXTM3U') && text.includes('#EXTINF')) {
+							return true;
+						}
 					}
+				} catch (err) {
+					// stream not ready yet
+				}
+				await new Promise((resolve) => setTimeout(resolve, 500));
+			}
+			return false;
+		};
+
+		const attachStream = async (sessionId) => {
+			if (attaching || sessionId === activeSessionId) {
+				return;
+			}
+
+			attaching = true;
+			detachStream();
+
+			const playlistUrl = `/hls/stream.m3u8?v=${sessionId}`;
+			setStatus('Buffering…', 'status buffering');
+
+			const ready = await waitForPlaylist(playlistUrl);
+			if (!ready) {
+				setStatus('Waiting for stream…', 'status offline');
+				attaching = false;
+				return;
+			}
+
+			if (Hls.isSupported()) {
+				hls = new Hls({
+					enableWorker: true,
+					lowLatencyMode: false,
+					liveSyncDurationCount: 3,
+					maxBufferLength: 20,
+					maxMaxBufferLength: 40,
+					backBufferLength: 0,
+					startFragPrefetch: true,
+				});
+
+				hls.loadSource(playlistUrl);
+				hls.attachMedia(player);
+
+				hls.on(Hls.Events.MANIFEST_PARSED, () => {
+					activeSessionId = sessionId;
+					attaching = false;
+					player.play().catch(() => {});
+				});
+
+				hls.on(Hls.Events.ERROR, (_, data) => {
+					if (!data.fatal) {
+						return;
+					}
+
+					attaching = false;
+					if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+						hls.recoverMediaError();
+						return;
+					}
+
+					setStatus('Stream error — retrying…', 'status offline');
+					activeSessionId = null;
+					detachStream();
 				});
 			} else if (player.canPlayType('application/vnd.apple.mpegurl')) {
-				player.src = hlsUrl;
+				player.src = playlistUrl;
+				player.addEventListener('loadedmetadata', () => {
+					activeSessionId = sessionId;
+					attaching = false;
+					player.play().catch(() => {});
+				}, { once: true });
+			} else {
+				attaching = false;
+				setStatus('HLS not supported in this browser', 'status offline');
 			}
 		};
 
 		const refreshStatus = () => {
-			fetch(`${apiUrl}/nowplaying`)
-				.then(r => r.json())
-				.then(data => {
+			fetch(`${apiUrl}/nowplaying`, { cache: 'no-store' })
+				.then((response) => response.json())
+				.then((data) => {
 					if (!data.powerState) {
-						statusEl.textContent = 'Transmitter offline';
-						statusEl.className = 'status offline';
+						setStatus('Transmitter offline', 'status offline');
 						player.pause();
 						return;
 					}
 
 					if (!data.playing) {
-						statusEl.textContent = data.nowPlaying
-							? `Paused — ${data.nowPlaying}`
-							: 'Paused';
-						statusEl.className = 'status paused';
+						setStatus(
+							data.nowPlaying ? `Paused — ${data.nowPlaying}` : 'Paused',
+							'status paused'
+						);
 						player.pause();
 						return;
 					}
 
-					statusEl.textContent = data.nowPlaying || 'Live';
-					statusEl.className = 'status';
-					player.play().catch(() => {});
+					setStatus(data.nowPlaying || 'Live');
 
-					fetch('/status')
-						.then(r => r.json())
-						.then(stream => {
-							if (stream.currentPath && stream.currentPath !== lastPath) {
-								lastPath = stream.currentPath;
-								attachStream();
-								player.play().catch(() => {});
+					return fetch('/status', { cache: 'no-store' })
+						.then((response) => response.json())
+						.then((stream) => {
+							if (!stream.sessionId || stream.sessionId === activeSessionId) {
+								if (stream.sessionId === activeSessionId && player.paused) {
+									player.play().catch(() => {});
+								}
+								return;
 							}
-						})
-						.catch(() => {});
+
+							attachStream(stream.sessionId);
+						});
 				})
 				.catch(() => {
-					statusEl.textContent = 'Cannot reach Pi TV API';
-					statusEl.className = 'status offline';
+					setStatus('Cannot reach Pi TV API', 'status offline');
 				});
 		};
 
-		attachStream();
 		refreshStatus();
-		setInterval(refreshStatus, 3000);
+		setInterval(refreshStatus, 2000);
 	</script>
 </body>
 </html>
