@@ -18,8 +18,25 @@ console.log(process.env)
 
 const debounceDelay = 2000;
 const shuffleDelay = 60000;
+const streamApiUrl = process.env.STREAM_API_URL || 'http://localhost:8081';
 const poweron = `http://10.0.0.16:8123/api/webhook/${process.env.ON_KEY}`;
 const poweroff = `http://10.0.0.16:8123/api/webhook/${process.env.OFF_KEY}`;
+
+const relayToStream = (endpoint) => {
+	const url = `${streamApiUrl}${endpoint}`;
+	fetch(url).catch((err) => console.log('Stream relay failed:', err.message));
+};
+
+const relayStreamLoad = () => {
+	const video = calculatedCurrentVideo();
+	if (video && video.fullPath) {
+		relayToStream(`/load?path=${encodeURIComponent(video.fullPath)}`);
+	}
+};
+
+const relayStreamPlayState = () => {
+	relayToStream(state.playing ? '/play' : '/pause');
+};
 
 let state = {
 	powerstate: true,
@@ -105,7 +122,7 @@ app.get('/power', (req, res) => {
 			player.play();
 		}
 
-		
+		relayStreamPlayState();
 		console.log("should power cycle to" + state.powerstate);
 		return sendDefaultResponse (res);
 	});
@@ -186,12 +203,14 @@ app.get('/rr', (req, res) => {
 app.get('/play', (req, res) => {
 	state.playing = !state.playing;
 	player.play();
+	relayStreamPlayState();
 	return sendDefaultResponse (res);
 });
 
 app.get('/pause', (req, res) => {
 	state.playing = !state.playing;
 	player.pause();
+	relayStreamPlayState();
 	return sendDefaultResponse (res);
 });
 
@@ -289,6 +308,7 @@ app.get('/eject', (req, res) => {
 
 app.get('/stop', (req, res) => {
 	player.quit();
+	relayToStream('/stop');
 	sendDefaultResponse (res);
 });
 
@@ -314,6 +334,7 @@ const loadVideo = () => {
 	state.playing = true;
 	
 	player.newSource(calculatedCurrentVideo().fullPath);
+	relayStreamLoad();
 	console.log("NEW SOURCE <<<<")
 }
 

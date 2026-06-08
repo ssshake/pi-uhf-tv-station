@@ -1,0 +1,14 @@
+{
+  "name": "pitv-stream",
+  "version": "0.0.0",
+  "description": "HLS stream server for Pi TV Station",
+  "main": "stream.js",
+  "scripts": {
+    "start": "node stream.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
+}

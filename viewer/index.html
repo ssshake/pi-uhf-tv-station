@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pi TV Viewer</title>
+	<style>
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			min-height: 100vh;
+			background: #0a0a0a;
+			color: #e8e8e8;
+			font-family: system-ui, -apple-system, sans-serif;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		header {
+			width: 100%;
+			max-width: 960px;
+			padding: 1rem 1.25rem 0.5rem;
+		}
+
+		h1 {
+			font-size: 1.1rem;
+			font-weight: 600;
+			letter-spacing: 0.04em;
+			text-transform: uppercase;
+			color: #888;
+		}
+
+		.status {
+			margin-top: 0.35rem;
+			font-size: 0.95rem;
+			min-height: 1.4em;
+		}
+
+		.status.paused {
+			color: #f0a020;
+		}
+
+		.status.offline {
+			color: #c44;
+		}
+
+		main {
+			width: 100%;
+			max-width: 960px;
+			padding: 0.75rem 1.25rem 2rem;
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.video-wrap {
+			position: relative;
+			width: 100%;
+			background: #000;
+			border: 2px solid #222;
+			border-radius: 4px;
+			overflow: hidden;
+			aspect-ratio: 4 / 3;
+		}
+
+		video {
+			width: 100%;
+			height: 100%;
+			display: block;
+			background: #000;
+			object-fit: contain;
+		}
+
+		.hint {
+			margin-top: 0.75rem;
+			font-size: 0.8rem;
+			color: #666;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>Pi TV Viewer</h1>
+		<div id="status" class="status">Connecting…</div>
+	</header>
+
+	<main>
+		<div class="video-wrap">
+			<video id="player" controls autoplay muted playsinline></video>
+		</div>
+		<p class="hint">Use the remote app to change channels and control playback.</p>
+	</main>
+
+	<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js"></script>
+	<script>
+		const host = window.location.hostname;
+		const apiUrl = `http://${host}:3000`;
+		const streamUrl = `http://${host}:8081`;
+		const hlsUrl = `${streamUrl}/hls/stream.m3u8`;
+
+		const player = document.getElementById('player');
+		const statusEl = document.getElementById('status');
+		let hls = null;
+		let lastPath = null;
+
+		const attachStream = () => {
+			if (Hls.isSupported()) {
+				if (hls) {
+					hls.destroy();
+				}
+				hls = new Hls({
+					liveSyncDurationCount: 3,
+					maxLiveSyncPlaybackRate: 1.5,
+				});
+				hls.loadSource(hlsUrl);
+				hls.attachMedia(player);
+				hls.on(Hls.Events.ERROR, (_, data) => {
+					if (data.fatal) {
+						statusEl.textContent = 'Stream unavailable — waiting for video…';
+						statusEl.className = 'status offline';
+					}
+				});
+			} else if (player.canPlayType('application/vnd.apple.mpegurl')) {
+				player.src = hlsUrl;
+			}
+		};
+
+		const refreshStatus = () => {
+			fetch(`${apiUrl}/nowplaying`)
+				.then(r => r.json())
+				.then(data => {
+					if (!data.powerState) {
+						statusEl.textContent = 'Transmitter offline';
+						statusEl.className = 'status offline';
+						player.pause();
+						return;
+					}
+
+					if (!data.playing) {
+						statusEl.textContent = data.nowPlaying
+							? `Paused — ${data.nowPlaying}`
+							: 'Paused';
+						statusEl.className = 'status paused';
+						player.pause();
+						return;
+					}
+
+					statusEl.textContent = data.nowPlaying || 'Live';
+					statusEl.className = 'status';
+					player.play().catch(() => {});
+
+					fetch(`${streamUrl}/status`)
+						.then(r => r.json())
+						.then(stream => {
+							if (stream.currentPath && stream.currentPath !== lastPath) {
+								lastPath = stream.currentPath;
+								attachStream();
+								player.play().catch(() => {});
+							}
+						})
+						.catch(() => {});
+				})
+				.catch(() => {
+					statusEl.textContent = 'Cannot reach Pi TV API';
+					statusEl.className = 'status offline';
+				});
+		};
+
+		attachStream();
+		refreshStatus();
+		setInterval(refreshStatus, 3000);
+	</script>
+</body>
+</html>

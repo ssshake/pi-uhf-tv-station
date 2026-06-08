@@ -216,7 +216,7 @@ export default {
   }
 
   .remote.theme-dark {
-    --logo-color: #a8b0bc;
+    --logo-color:rgb(255, 255, 255);
     --remote-bg: linear-gradient(
       280deg,
       #3d434d 0%,
