@@ -58,7 +58,9 @@ export default {
   name: 'RemoteControl',
   data: () => {
     return {
-      baseUrl: 'http://10.0.0.22:3000', //pull from config
+      //baseUrl: 'http://10.0.0.22:3000', //pull from config
+      //baseUrl: 'http://10.0.10.158:3000', //pull from config
+      baseUrl: `${window.location.protocol}//${window.location.hostname}:3000`,
       playlistName: '',
       episodeIndex: 0,
       lcd: '',
